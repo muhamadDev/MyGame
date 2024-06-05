@@ -128,12 +128,10 @@ export default class Main extends Phaser.Scene {
             height: 70, 
             padding: 10, 
             scrollFactor: 0, 
+            onDbClick: (item, pointer) => {} ,
             onClickCallback: (item, pointer) => {
                 this.selectedItems(item);
             },
-            onDbClick: (item, pointer) => {
-                
-            } ,
             inventorys: []
         }, this);
         
@@ -228,7 +226,7 @@ export default class Main extends Phaser.Scene {
             speed: 120,
             scale: 2.3,
             sale: true,
-            dialog: data.lewis[0].talk,
+            dialog: data.lewis,
             animations: [{
                 name: "Idle",
                 start: 8,

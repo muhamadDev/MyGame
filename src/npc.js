@@ -14,8 +14,10 @@ export default class Npc extends Phaser.Physics.Arcade.Sprite {
         this.scene = scene;
         
         this.secondTime = false;
-        this.firstTimeTalk = true;
+        this.shouldTalk = true;
         this.isSecondClick = false;
+        
+        this.dialogNumber = 0;
         
         this.setSize(15, 30);
         this.setScale(options.scale || 1);
@@ -42,97 +44,20 @@ export default class Npc extends Phaser.Physics.Arcade.Sprite {
         this.play(`${this.key}${this.animations[0].name}`);
     }
     
-    openShopMenu() {
-        this.scene.physics.pause();
-        
-        this.menuGroup = this.scene.physics.add.group();
-        
-        this.rectangle = this.scene.add.rectangle(0, 0, 1280, 720, 0x000000);
-        
-        this.rectangle.setOrigin(0).setDepth(120).setScrollFactor(0).alpha = 0.7;
-        
-        this.container = this.menuGroup
-            .create(640, 360, "Container")
-            .setScale(9)   
-            .setDepth(125)
-            .setScrollFactor(0);
-            
-        this.closeBtn = this.menuGroup.create(530, 150, "AttackBtn");
-        
-        this.closeBtn
-        .setDepth(126)
-        .setScale(5)
-        .setScrollFactor(0)
-        .setInteractive();
-        
-        this.closeBtn.on("pointerdown", () => {
-            this.scene.physics.resume();
-            this.container.destroy();
-            this.rectangle.destroy();
-            this.closeBtn.destroy();
-            this.rangeToHealth.destroy();
-            this.update();
-        });
-        
-        this.rangeToHealth = this.menuGroup.create(640, 250, "RangeTohealth");
-        this.rangeToHealth
-        .setDepth(126)
-        .setScale(5)
-        .setScrollFactor(0)
-        .setInteractive();
-        
-        
-        this.rangeToHealth.on("pointerdown", () => {
-            if (this.scene.Dude.data.values.health == 100) return;
-            if (this.scene.Dude.data.values.energy < 50) return;
-            
-            this.scene.Dude.data.values.health = 100;
-            this.scene.Dude.data.values.energy = 0;
-            this.scene.status.updateEnergy();
-            this.scene.status.updateHealth();
-      });
-      
-      
-    }
     
     update() {
         const distance = Phaser.Math.Distance.BetweenPoints(this.scene.Dude, this);
         
-        if (this.firstTimeTalk && distance < 60 && this.dialog) {
+        if (this.shouldTalk && distance < 60 && this.dialog) {
             this.scene.physics.pause();
             
             this.scene.Dude.setVelocity(0)
-            createTextBox(this.scene, 215, 480, 800, this.npcName)
-            .start(this.dialog, 40);
+            createTextBox(this.scene, 215, 480, 800, this, this.npcName)
+            .start(this.dialog[this.dialogNumber].talk, 40);
+            this.shouldTalk = false
             
-            this.firstTimeTalk = false;
         }
         
-        if (!this.sale) return;
-        
-        if (distance > 60) {
-            if (this.secondTime) {
-                this.btn.destroy();
-                this.btn = null;
-                this.secondTime = false;
-                return;
-            }
-            return;
-        }
-        
-        if (this.btn) return;
-        this.secondTime = true;
-            
-        this.btn = this.scene.physics.add.sprite(640, 600, "AttackBtn");
-        this.btn.setInteractive()
-        .setScrollFactor(0)
-        .setDepth(100)
-        .setScale(5);
-        
-        this.btn.on('pointerdown', (pointer) => {
-            this.openShopMenu()
-            this.btn.destroy();
-        });
         
     }
     
@@ -146,7 +71,7 @@ const COLOR_DARK = 0x260e04;
 const COLOR_PRIMARY = 0x4e342e;
 
 
-export function createTextBox(scene, x, y, wrapWidth, npcName = "npc-LK-On") {
+export function createTextBox(scene, x, y, wrapWidth, npc, npcName = "npc-LK-On") {
     let textBox = scene.rexUI.add.textBox({
         x: x,
         y: y,
@@ -218,6 +143,16 @@ export function createTextBox(scene, x, y, wrapWidth, npcName = "npc-LK-On") {
             // last Page
             textBox.destroy();
             scene.physics.resume();
+            
+            if(npc.dialogNumber == npc.dialog.length) return;
+            npc.dialogNumber++
+            
+            if (!npc.dialog[npc.dialogNumber]) return;
+            
+            npc.scene.time.delayedCall(npc.dialog[npc.dialogNumber].time * 1000, () => {
+                npc.shouldTalk = true
+            });
+            
         }
         
       }, textBox);
