@@ -21,7 +21,7 @@ export default class Main extends Phaser.Scene {
     }
 
     create() {
-        this.createMap(0, -25, 48, 48, "map");
+        this.createMap()
         
         this.createPlayer();
         
@@ -78,21 +78,17 @@ export default class Main extends Phaser.Scene {
         
         
     }
-
-    createMap(x, y, width = 16, height = 16, map = "map") {
-        let data = this.cache.json.get(map)
+    
+    createMap() {
+        const map = this.make.tilemap({ key: "map", tileWidth: 32, tileHeight: 32});
         
-        this.tiles = this.physics.add.group();
+        const tileset = map.addTilesetImage("tile","Tileset");
         
-        data.layers[1].tiles.forEach((tile) => {
-            this.tiles.create(x + tile.x * width, y + tile.y * height, "sprite", +tile.id)
-            .setScale(3).body.debugShowBody = false;
-        });
+        const groundLayer = map.createLayer("ground", tileset, 0, 0);
+        const bridgeLayer = map.createLayer("bridge", tileset, 0, 0);
         
-        data.layers[0].tiles.forEach((tile) => {
-            this.tiles.create(x + tile.x * width, y + tile.y * height, "sprite", +tile.id)
-            .setScale(3).body.debugShowBody = false;
-        });
+        groundLayer.setScale(3)
+        bridgeLayer.setScale(3)
         
         
     }
@@ -108,13 +104,13 @@ export default class Main extends Phaser.Scene {
             maxHealth: 100,
             minHealth: 0,
             health: 100,
-            timeBettwenEachAttack: 300, // 0.3s
+            timeBettwenEachAttack: 300,
             animation: true,
             damageToEnemy: 10
         }, this);
         
-        this.physics.world.setBounds(0, 0, 39 * 48, 44 * 48);
-        this.cameras.main.setBounds(0, 0, 39 * 48, 44 * 48);
+        this.physics.world.setBounds(0, 0, 1120 * 3, 1120 * 3);
+        this.cameras.main.setBounds(0, 0, 1120 * 3, 1120 * 3);
         
     }
     

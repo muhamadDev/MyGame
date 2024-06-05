@@ -169,9 +169,10 @@
             "frameConfig": { "frameWidth": 32, "frameHeight": 32 }
         },
         {
-            "type": "json",
-            "key": "map",
-            "url": "../json/map.json"
+           "type": "spritesheet",
+           "key": "Tileset",
+           "url": "../assets/Environment/Tileset.png",
+           "frameConfig": { "frameWidth": 32, "frameHeight": 32 }
         },
         {
             "type": "json",
@@ -188,6 +189,11 @@
             "key": "house",
             "url": "../json/house1.json"
         }, 
+        {
+            "type": "tilemapTiledJSON",
+            "key": "map",
+            "url": "../json/map.json"
+        },
         {
             "type": "scenePlugin",
             "key": "rexuiplugin",
