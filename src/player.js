@@ -45,8 +45,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.scene.cameras.main.startFollow(this);
         
         if (this.animation) {
-            this.animations();
-            this.play("dudeIdleFront");
+            let anim = this.animations();
+            this.play(anim);
+            
         }
         
         this.createJoyStick();
@@ -119,174 +120,24 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
           
     }
 
-    animations() {
-        this.scene.anims.create({ //
-            key: "dudeIdleFront",
-            frames: this.scene.anims.generateFrameNumbers("dudeIdle", {
-                start: 0,
-                end: 3
-            }),
-            frameRate: 6,
-            repeat: -1,
-        });
-    
-        this.scene.anims.create({ // 
-            key: "dudeWalkFront",
-            frames: this.scene.anims.generateFrameNumbers("dudeMove", {
-                start: 0,
-                end: 5
-            }),
-            frameRate: 8,
-            repeat: -1,
-        });
-    
-        this.scene.anims.create({ // 
-            key: "dudeAttackFront",
-            frames: this.scene.anims.generateFrameNumbers("dudeAttack", {
-                start: 0,
-                end: 5
-            }),
-            frameRate: 8,
-            repeat: 0,
-        });
-    
-        // right
-    
-        this.scene.anims.create({ //
-            key: "dudeIdleRight",
-            frames: this.scene.anims.generateFrameNumbers("dudeIdle", {
-                start: 8,
-                end: 11
-            }),
-            frameRate: 6,
-            repeat: -1,
-        });
-    
-        this.scene.anims.create({
-            key: "dudeWalkRight",
-            frames: this.scene.anims.generateFrameNumbers("dudeMove", {
-                start:12,
-                end: 17
-            }),
-            frameRate: 8,
-            repeat: -1,
-        });
-    
-        this.scene.anims.create({ //
-            key: "dudeAttackRight",
-            frames: this.scene.anims.generateFrameNames("dudeAttack", {
-                start: 12,
-                end: 17
-            }),
-            frameRate: 8,
-            repeat: 0,
-        });
-    
-        // back
-        this.scene.anims.create({ //
-            key: "dudeIdleBack",
-            frames: this.scene.anims.generateFrameNumbers("dudeIdle", {
-                start: 12,
-                end: 15
-            }),
-            frameRate: 6,
-            repeat: -1,
-        });
-    
-        this.scene.anims.create({ //
-            key: "dudeWalkBack",
-            frames: this.scene.anims.generateFrameNumbers("dudeMove", {
-                start: 18,
-                end: 23
-            }),
-            frameRate: 8,
-            repeat: -1,
+    animations() { //animation
+        let data = this.scene.cache.json.get("animation");
+        const frameRate =10
+        
+        data.player.forEach((anims) => {
+            this.scene.anims.create({ 
+                key: anims.key,
+                frames: this.scene.anims.generateFrameNumbers(anims.spriteKey, {
+                    start: anims.start,
+                    end: anims.end
+                }),
+                frameRate: frameRate,
+                repeat: anims.repeat,
+            });
+            
         });
         
-        this.scene.anims.create({ //
-            key: "dudeAttackBack",
-            frames: this.scene.anims.generateFrameNumbers("dudeAttack", {
-                start: 18,
-                end: 23
-            }),
-            frameRate: 8,
-            repeat: 0,
-        });
-    
-        // left
-        this.scene.anims.create({ //
-          key: "dudeIdleLeft",
-          frames: this.scene.anims.generateFrameNumbers("dudeIdle", {
-              start: 4,
-              end: 7
-          }),
-          frameRate: 6,
-          repeat: -1,
-        });
-    
-        this.scene.anims.create({ //
-          key: "dudeWalkLeft",
-          frames: this.scene.anims.generateFrameNumbers("dudeMove", {
-              start: 6,
-              end: 11
-          }),
-          frameRate: 8,
-          repeat: -1,
-        });
-    
-        this.scene.anims.create({ //
-          key: "dudeAttackLeft",
-          frames: this.scene.anims.generateFrameNumbers("dudeAttack", {
-              start: 6,
-              end: 11
-          }),
-          frameRate: 8,
-          repeat: 0,
-        });
-        
-        // bow
-        
-        this.scene.anims.create({ //
-            key: "dudeAttackBowFront",
-            frames: this.scene.anims.generateFrameNumbers("dudeAttackBow", {
-                start: 0,
-                end: 5
-            }),
-            frameRate: 8,
-            repeat: 0,
-        });
-        
-        this.scene.anims.create({ //
-            key: "dudeAttackBowLeft",
-            frames: this.scene.anims.generateFrameNumbers("dudeAttackBow", {
-                start: 6,
-                end: 11
-            }),
-            frameRate: 8,
-            repeat: 0,
-        });
-        
-        this.scene.anims.create({ //
-            key: "dudeAttackBowRight",
-            frames: this.scene.anims.generateFrameNumbers("dudeAttackBow", {
-                start: 12,
-                end: 17
-            }),
-            frameRate: 8,
-            repeat: 0,
-        });
-        this.scene.anims.create({ //
-            key: "dudeAttackBowBack",
-            frames: this.scene.anims.generateFrameNumbers("dudeAttackBow", {
-                start: 18,
-                end: 23
-            }),
-            frameRate: 8,
-            repeat: 0,
-        });
-        
-        
-        
+        return data.player[data.player.length - 1]
     }
     
     createAttackBtn() {

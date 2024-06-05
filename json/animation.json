@@ -1,0 +1,182 @@
+{
+    "player": [
+        {
+            "key": "dudeSowrdIdleBack",
+            "spriteKey": "dudeSword",
+            "start": 104,
+            "end": 104,
+            "repeat": -1
+        },
+        {
+            "key": "dudeSowrdIdleLeft",
+            "spriteKey": "dudeSword",
+            "start": 117,
+            "end": 117,
+            "repeat": -1
+        },
+        {
+            "key": "dudeSowrdIdleFront",
+            "spriteKey": "dudeSword",
+            "start": 130,
+            "end": 130,
+            "repeat": -1
+        },
+        {
+            "key": "dudeSowrdIdleRight",
+            "spriteKey": "dudeSword",
+            "start": 143,
+            "end": 143,
+            "repeat": -1
+        },
+        
+        {
+            "key": "dudeSowrdAttackBack",
+            "spriteKey": "dudeSword",
+            "start": 156,
+            "end": 161,
+            "repeat": 0 
+        },
+        {
+            "key": "dudeSowrdAttackLeft",
+            "spriteKey": "dudeSword",
+            "start": 169,
+            "end": 174,
+            "repeat": 0
+        },
+        {
+            "key": "dudeSowrdAttackFront",
+            "spriteKey": "dudeSword",
+            "start": 182,
+            "end": 187,
+            "repeat": 0
+        },
+        {
+            "key": "dudeSowrdAttackRight",
+            "spriteKey": "dudeSword",
+            "start": 195,
+            "end": 200,
+            "repeat": 0
+        },
+        
+        {
+            "key": "dudeSowrdWolkBack",
+            "spriteKey": "dudeSword",
+            "start": 104,
+            "end": 112,
+            "repeat": -1
+        },
+        {
+            "key": "dudeSowrdWolkleft",
+            "spriteKey": "dudeSword",
+            "start": 117,
+            "end": 125,
+            "repeat": -1
+        },
+        {
+            "key": "dudeSowrdWolkFront",
+            "spriteKey": "dudeSword",
+            "start": 130,
+            "end": 138,
+            "repeat": -1
+        },
+        {
+            "key": "dudeSowrdWolkRight",
+            "spriteKey": "dudeSword",
+            "start": 143,
+            "end": 151,
+            "repeat": -1
+        },
+        
+        
+        {
+            "key": "dudeBowIdleBack",
+            "spriteKey": "dudeBow2",
+            "start": 207,
+            "end": 207,
+            "repeat": -1
+        },
+        {
+            "key": "dudeBowIdleLeft",
+            "spriteKey": "dudeBow2",
+            "start": 216,
+            "end": 216,
+            "repeat": -1
+        },
+        {
+            "key": "dudeBowIdleFront",
+            "spriteKey": "dudeBow2",
+            "start": 225,
+            "end": 225,
+            "repeat": -1
+        },
+        {
+            "key": "dudeBowIdleRight",
+            "spriteKey": "dudeBow2",
+            "start": 234,
+            "end": 234,
+            "repeat": -1
+        },
+        
+        {
+            "key": "dudeBowWolkBack",
+            "spriteKey": "dudeBow2",
+            "start": 207,
+            "end": 215,
+            "repeat": -1
+        },
+        {
+            "key": "dudeBowWolkLeft",
+            "spriteKey": "dudeBow2",
+            "start": 216,
+            "end": 224,
+            "repeat": -1
+        },
+        {
+            "key": "dudeBowWolkFront",
+            "spriteKey": "dudeBow2",
+            "start": 225,
+            "end": 233,
+            "repeat": -1
+        },
+        {
+            "key": "dudeBowWolkRight",
+            "spriteKey": "dudeBow2",
+            "start": 234,
+            "end": 242,
+            "repeat": -1
+        },
+        
+        {
+            "key": "dudeBowAttackBack",
+            "spriteKey": "dudeBow",
+            "start": 288,
+            "end": 300,
+            "repeat": 0
+        },
+        {
+            "key": "dudeBowAttackLeft",
+            "spriteKey": "dudeBow",
+            "start": 306,
+            "end": 318,
+            "repeat": 0
+        },
+        {
+            "key": "dudeBowAttackFront",
+            "spriteKey": "dudeBow",
+            "start": 324,
+            "end": 336,
+            "repeat": 0
+        },
+        {
+            "key": "dudeBowAttackRight",
+            "spriteKey": "dudeBow",
+            "start": 342,
+            "end": 354,
+            "repeat": 0
+        }
+
+        
+        
+    ]
+    
+}

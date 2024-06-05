@@ -23,11 +23,6 @@
         },
         {
             "type": "image",
-            "key": "RangeTohealth",
-            "url": "../assets/ui/RangeTohealth.png"
-        },
-        {
-            "type": "image",
             "key": "bullet",
             "url": "../assets/enemy/bullet.png"
         },
@@ -62,16 +57,6 @@
             "url": "../assets/ui/energy.png"
         },
         {
-            "type": "image",
-            "key": "invisible",
-            "url": "../assets/Environment/Invisible.png"
-        },
-        {
-            "type": "image",
-            "key": "shadow",
-            "url": "../assets/player/Shadow.png"
-        },
-        {
             "type": "audio",
             "key": "swosh",
             "url": ["../assets/audio/swosh.ogg", "../assets/audio/swosh.mp3"]
@@ -87,49 +72,6 @@
             "key": "houseSheet",
             "url": "../assets/Environment/housesSheet.png",
             "frameConfig": { "frameWidth": 32, "frameHeight": 32 }
-        },
-        {
-            "type": "spritesheet",
-            "key": "dudeIdle",
-            "url": "../assets/player/Idle_Character.png",
-            "frameConfig": { "frameWidth": 128, "frameHeight": 128 }
-        },
-        {
-            "type": "spritesheet",
-            "key": "dudeMove",
-            "url": "../assets/player/Move_Character.png",
-            "frameConfig": { "frameWidth": 128, "frameHeight": 128 }
-        },
-        {
-            "type": "spritesheet",
-            "key": "dudeAttack",
-            "url": "../assets/player/Melee_Character.png",
-            "frameConfig": { "frameWidth": 128, "frameHeight": 128 }
-        },
-        {
-            "type": "spritesheet",
-            "key": "dudeIdleBow",
-            "url": "../assets/player/bow/Idle_Character.png",
-            "frameConfig": { "frameWidth": 128, "frameHeight": 128 }
-        },
-        {
-            "type": "spritesheet",
-            "key": "dudeMoveBow",
-            "url": "../assets/player/bow/Move_Character.png",
-            "frameConfig": { "frameWidth": 128, "frameHeight": 128 }
-        },
-        {
-            "type": "spritesheet",
-            "key": "dudeAttackBow",
-            "url": "../assets/player/bow/Ranged_Character.png",
-            "frameConfig": { "frameWidth": 128, "frameHeight": 128 }
-        },
-
-        {
-            "type": "spritesheet",
-            "key": "mevementBtns",
-            "url": "../assets/ui/movemontsBtn.png",
-            "frameConfig": { "frameWidth": 16, "frameHeight": 16 }
         },
         {
             "type": "spritesheet",
@@ -175,6 +117,24 @@
            "frameConfig": { "frameWidth": 32, "frameHeight": 32 }
         },
         {
+            "type": "spritesheet",
+            "key": "dudeSword",
+            "url": "../assets/player/dudeSword.png",
+            "frameConfig": { "frameWidth": 64, "frameHeight": 64 }
+        },
+        {
+            "type": "spritesheet",
+            "key": "dudeBow",
+            "url": "../assets/player/Bow.png",
+            "frameConfig": { "frameWidth": 64, "frameHeight": 64 }
+        },
+        {
+            "type": "spritesheet",
+            "key": "dudeBow2",
+            "url": "../assets/player/Bow2.png",
+            "frameConfig": { "frameWidth": 128, "frameHeight": 128 }
+        },
+        {
             "type": "json",
             "key": "envirment",
             "url": "../json/envirment.json"
@@ -189,6 +149,11 @@
             "key": "house",
             "url": "../json/house1.json"
         }, 
+        {
+            "type": "json",
+            "key": "animation",
+            "url": "../json/animation.json"
+        },
         {
             "type": "tilemapTiledJSON",
             "key": "map",
