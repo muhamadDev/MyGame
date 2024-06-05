@@ -1,0 +1,206 @@
+{
+  "pack": {
+    "files": [
+        {
+            "type": "image",
+            "key": "AttackBtn",
+            "url": "../assets/ui/AttackBtn.png"
+        },
+        {
+            "type": "image",
+            "key": "nextPage",
+            "url": "../assets/ui/arrow-down-left.png"
+        },
+        {
+            "type": "image",
+            "key": "openMenu",
+            "url": "../assets/ui/openMenu.png"
+        },
+        {
+            "type": "image",
+            "key": "Container",
+            "url": "../assets/ui/Container.png"
+        },
+        {
+            "type": "image",
+            "key": "RangeTohealth",
+            "url": "../assets/ui/RangeTohealth.png"
+        },
+        {
+            "type": "image",
+            "key": "bullet",
+            "url": "../assets/enemy/bullet.png"
+        },
+        {
+            "type": "image",
+            "key": "inventoryContainer",
+            "url": "../assets/ui/inventoryContainer.png"
+        },
+        {
+            "type": "image",
+            "key": "sword",
+            "url": "../assets/Tool/sword.png"
+        },
+        {
+            "type": "image",
+            "key": "Bow",
+            "url": "../assets/Tool/Bow.png"
+        },
+        {
+            "type": "image",
+            "key": "arrow",
+            "url": "../assets/Tool/arrow.png"
+        },
+        {
+            "type": "image",
+            "key": "dudeStatus",
+            "url": "../assets/ui/dudeStatusV1.png"
+        },
+        {
+            "type": "image",
+            "key": "health",
+            "url": "../assets/ui/energy.png"
+        },
+        {
+            "type": "image",
+            "key": "invisible",
+            "url": "../assets/Environment/Invisible.png"
+        },
+        {
+            "type": "image",
+            "key": "shadow",
+            "url": "../assets/player/Shadow.png"
+        },
+        {
+            "type": "audio",
+            "key": "swosh",
+            "url": ["../assets/audio/swosh.ogg", "../assets/audio/swosh.mp3"]
+        },
+        {
+            "type": "spritesheet",
+            "key": "sprite",
+            "url": "../assets/Environment/spritesheet.png",
+            "frameConfig": { "frameWidth": 16, "frameHeight": 16 }
+        },
+        {
+            "type": "spritesheet",
+            "key": "houseSheet",
+            "url": "../assets/Environment/housesSheet.png",
+            "frameConfig": { "frameWidth": 32, "frameHeight": 32 }
+        },
+        {
+            "type": "spritesheet",
+            "key": "dudeIdle",
+            "url": "../assets/player/Idle_Character.png",
+            "frameConfig": { "frameWidth": 128, "frameHeight": 128 }
+        },
+        {
+            "type": "spritesheet",
+            "key": "dudeMove",
+            "url": "../assets/player/Move_Character.png",
+            "frameConfig": { "frameWidth": 128, "frameHeight": 128 }
+        },
+        {
+            "type": "spritesheet",
+            "key": "dudeAttack",
+            "url": "../assets/player/Melee_Character.png",
+            "frameConfig": { "frameWidth": 128, "frameHeight": 128 }
+        },
+        {
+            "type": "spritesheet",
+            "key": "dudeIdleBow",
+            "url": "../assets/player/bow/Idle_Character.png",
+            "frameConfig": { "frameWidth": 128, "frameHeight": 128 }
+        },
+        {
+            "type": "spritesheet",
+            "key": "dudeMoveBow",
+            "url": "../assets/player/bow/Move_Character.png",
+            "frameConfig": { "frameWidth": 128, "frameHeight": 128 }
+        },
+        {
+            "type": "spritesheet",
+            "key": "dudeAttackBow",
+            "url": "../assets/player/bow/Ranged_Character.png",
+            "frameConfig": { "frameWidth": 128, "frameHeight": 128 }
+        },
+
+        {
+            "type": "spritesheet",
+            "key": "mevementBtns",
+            "url": "../assets/ui/movemontsBtn.png",
+            "frameConfig": { "frameWidth": 16, "frameHeight": 16 }
+        },
+        {
+            "type": "spritesheet",
+            "key": "Bee",
+            "url": "../assets/enemy/bee/Bee2.png",
+            "frameConfig": { "frameWidth": 48, "frameHeight": 48 }
+        },
+        
+        {
+            "type": "spritesheet",
+            "key": "Trees",
+            "url": "../assets/Environment/Trees.png",
+            "frameConfig": { "frameWidth": 50, "frameHeight": 65 }
+        },
+        {
+            "type": "spritesheet",
+            "key": "npc1",
+            "url": "../assets/npc/npc1.png",
+            "frameConfig": { "frameWidth": 32, "frameHeight": 48 }
+        },
+        {
+            "type": "spritesheet",
+            "key": "barrel",
+            "url": "../assets/Environment/barrel.png",
+            "frameConfig": { "frameWidth": 16, "frameHeight": 20 }
+        },
+        {
+            "type": "spritesheet",
+            "key": "slimeGreen",
+            "url": "../assets/enemy/slimeGreen.png",
+            "frameConfig": { "frameWidth": 32, "frameHeight": 32 }
+        },
+        {
+            "type": "spritesheet",
+            "key": "smallChest",
+            "url": "../assets/Environment/smallChest.png",
+            "frameConfig": { "frameWidth": 32, "frameHeight": 32 }
+        },
+        {
+            "type": "json",
+            "key": "map",
+            "url": "../json/map.json"
+        },
+        {
+            "type": "json",
+            "key": "envirment",
+            "url": "../json/envirment.json"
+        }, 
+        {
+            "type": "json",
+            "key": "dialogs",
+            "url": "../json/dialogs.json"
+        },
+        {
+            "type": "json",
+            "key": "house",
+            "url": "../json/house1.json"
+        }, 
+        {
+            "type": "scenePlugin",
+            "key": "rexuiplugin",
+            "url": "../plugins/rexuiplugin.min.js",
+            "sceneKey": "rexUI"
+        },
+        {
+            "type": "plugin",
+            "key": "rexraycasterplugin",
+            "url": "../plugins/rexraycasterplugin.min.js",
+            "start": true
+        }
+        
+    ]
+  }
+}
