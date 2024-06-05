@@ -38,9 +38,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.setInteractive();
         
         this.on("pointerdown", (pointer) => {
-            const col = Math.floor(this.x / 200);
-            const row = Math.floor(this.y / 200);
-            
             console.log(Math.floor(this.x), Math.floor(this.y))
         });
         
@@ -52,7 +49,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             this.play("dudeIdleFront");
         }
         
-        this.movement();
+        this.createJoyStick();
+        
         this.createAttackBtn();
         
         this.on('die', (spr) =>  {
@@ -70,98 +68,57 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         
     }
     
-    movement() {
-        let btnY = 600;
-        let btnX = 140;
-        let scale = 5.9
+    createJoyStick() {
+        const base = this.scene.add.circle(0, 0, 100, 0x888888)
+        .setDepth(100)
         
-        // left
-        let left = this.scene.add.sprite(btnX - 80, btnY, "mevementBtns", 1);
-        left
-          .setOrigin(0.5, 0.5)
-          .setScale(scale)
-          .setInteractive()
-          .setScrollFactor(0)
-          .setDepth(100);
+        const thumb = this.scene.add.circle(0, 0, 50, 0xcccccc).setDepth(100)
         
-        left.on("pointerdown", (pointer) => {
-            this.setVelocityX(-this.speed);
-            this.play("dudeWalkLeft");
-            this.data.values.facing = "Left";
-            
+        this.joyStick = this.scene.plugins.get('rexvirtualjoystickplugin').add(this, {
+            x: 140,
+            y: 610,
+            radius: 100,
+            base: base,
+            thumb: thumb,
+            dir: '4dir', // 'up&down'|0|'left&right'|1|'4dir'|2|'8dir'|3
+            // forceMin: 16,
+            // enable: true
+        }).on('update', () => {
+            this.movePlayer();
         });
         
-        left.on("pointerup", (pointer) => {
-            this.setVelocityX(0);
-            this.play("dudeIdleLeft");
-          
-        });
-        
-        // right
-        
-        let right = this.scene.add.image(btnX + 80, btnY, "mevementBtns", 2);
-        right
-          .setOrigin(0.5, 0.5)
-          .setScale(scale)
-          .setInteractive()
-          .setDepth(100)
-          .setScrollFactor(0);
-    
-        right.on("pointerdown", (pointer) => {
-            this.setVelocityX(this.speed);
-            this.play("dudeWalkRight");
-            this.data.values.facing = "Right";
-            
-        });
-        
-        right.on("pointerup", (pointer) => {
-            this.setVelocityX(0);
-            this.play("dudeIdleRight");
-            
-        });
-        
-        // top
-        let top = this.scene.add.sprite(btnX, btnY - 80, "mevementBtns", 3); // 73.5
-        top
-          .setOrigin(0.5, 0.5)
-          .setScale(scale)
-          .setInteractive()
-          .setScrollFactor(0)
-          .setDepth(100);
-    
-        top.on("pointerdown", (pointer) => {
-            this.setVelocityY(-this.speed);
-            this.play("dudeWalkBack");
-            this.data.values.facing = "Back";
-            
-        });
-        
-        top.on("pointerup", (pointer) => {
-            this.setVelocityY(0);
-            this.play("dudeIdleBack");
-            
-        });
-    
-        let bottom = this.scene.add.sprite(btnX, btnY + 80, "mevementBtns", 0); //. 73.5
-        bottom
-          .setOrigin(0.5, 0.5)
-          .setScale(scale)
-          .setDepth(100)
-          .setScrollFactor(0)
-          .setInteractive();
-    
-        bottom.on("pointerdown", (pointer) => {
-            this.setVelocityY(this.speed);
-            this.play("dudeWalkFront");
-            this.data.values.facing = "Front";
-            
-        });
-        
-        bottom.on("pointerup", (pointer) => {
-            this.setVelocityY(0);
-            this.play("dudeIdleFront");
-        });
     }
+    
+    movePlayer() {
+        let cursorKeys = this.joyStick.createCursorKeys();
+        
+        if (cursorKeys.left.isDown) {
+            this.setVelocityX(-this.speed)
+        }
+        if (cursorKeys.right.isDown) {
+            this.setVelocityX(this.speed)
+        }
+        
+        if (cursorKeys.down.isDown) {
+            this.setVelocityY(this.speed)
+        }
+        
+        if (cursorKeys.up.isDown) {
+            this.setVelocityY(-this.speed)
+        }
+        
+        
+        if (!this.joyStick.left && !this.joyStick.right) {
+            this.setVelocityX(0)
+        }
+        
+        if (!this.joyStick.up && !this.joyStick.down) {
+            this.setVelocityY(0)
+        }
+        
+          
+    }
+
     
     animations() {
         this.scene.anims.create({ //
