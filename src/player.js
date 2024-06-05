@@ -119,7 +119,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
           
     }
 
-    
     animations() {
         this.scene.anims.create({ //
             key: "dudeIdleFront",
@@ -342,7 +341,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             this.scene.nearsetChest.openChest();
             return;
         }
-        console.log(playerItems[this.selectedItem])
+        
         playerItems[this.selectedItem].action(this);
         
     }

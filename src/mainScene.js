@@ -7,6 +7,7 @@ import PhaserTooltip from "../plugins/PhaserTooltip.js";
 import Chest from "./chest.js";
 
 
+
 export default class Main extends Phaser.Scene {
     constructor() {
         super({ key: "scene" });
@@ -164,8 +165,8 @@ export default class Main extends Phaser.Scene {
     }
     
     createEnvirment() {
-        
         let data = this.cache.json.get("envirment");
+        
         this.trees = this.physics.add.group();
         
         data.trees.forEach((tree) => {
@@ -264,8 +265,8 @@ export default class Main extends Phaser.Scene {
         ]
         
         this.chest1 = new Chest({
-            x: 500,
-            y: 500,
+            x: 930,
+            y: 759,
             space: 4,
             key: "smallChest",
             scale: 3,

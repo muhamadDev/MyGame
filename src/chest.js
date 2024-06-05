@@ -20,17 +20,17 @@ export default class Chest extends Phaser.Physics.Arcade.Sprite {
         // this.y -60
         
         this.inv = new Inventory({
-            x: this.x - (this.space * (70 / 2)),
-            y: this.y - 60,
+            x: options.x - (options.space * (70 / 2)),
+            y: options.y - 60,
             key: "inventoryContainer",
             id: 1,
             orientationY: false,
             tooltitOffset: { x: 0, y: 230},
-            space: 5, 
+            space: options.space, 
             width: 70,
             height: 70, 
             padding: 10, 
-            scrollFactor: 0, 
+            scrollFactor: 1, 
             onClickCallback: (item, pointer) => {},
             onDbClick: (item, pointer) => {} ,
             inventorys: [this.scene.inv]
