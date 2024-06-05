@@ -95,18 +95,16 @@ export default class Main extends Phaser.Scene {
     }
     
     createPlayer() {
-        
         this.Dude = new Player({
             x: 200,
             y: 200,
             key: "dude",
-            scale: 2,
+            scale: 1,
             speed: 320,
             maxHealth: 100,
             minHealth: 0,
             health: 100,
             timeBettwenEachAttack: 300,
-            animation: true,
             damageToEnemy: 10
         }, this);
         
@@ -140,6 +138,11 @@ export default class Main extends Phaser.Scene {
         this.inv.addItem("sword", {
             qountity: 1,
             text: "sword"
+        });
+        
+        this.inv.addItem("Bow", {
+            qountity: 1,
+            text: "Bow"
         });
         
     }
@@ -237,8 +240,6 @@ export default class Main extends Phaser.Scene {
         },this);
         
         this.physics.add.collider(this.npc, this.Dude, (npc, dude) => {
-            npc.setVelocityX(dude.body.velocity.x * 0.02);
-            npc.setVelocityY(dude.body.velocity.y * 0.02);
             
             this.time.delayedCall(300, () => {
                 npc.setVelocity(0)
