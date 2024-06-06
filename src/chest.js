@@ -71,9 +71,12 @@ export default class Chest extends Phaser.Physics.Arcade.Sprite {
         if (distance < 100) {
             this.scene.isPlayerNearChest = true;
             this.scene.nearsetChest = this;
+            
         } else {
             this.scene.isPlayerNearChest = false;
             this.scene.nearsetChest = null;
+            
+            this.inv.close()
         }
         this.inv?.update();
                 
@@ -91,10 +94,7 @@ export default class Chest extends Phaser.Physics.Arcade.Sprite {
             return;
         }
         
-        this.inv.containerGroup.getChildren().forEach(container => {
-            this.play(`${this.key}Reverse`)
-            container.hide();
-        });
+        this.inv.close()
         
         this.firstTime = true;
         

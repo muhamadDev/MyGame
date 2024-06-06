@@ -59,7 +59,7 @@ export default class Main extends Phaser.Scene {
         });
         
         this.trees.getChildren().forEach((tree) => {
-            if (tree.y + 75 > this.Dude.y) {
+            if (tree.y + 40 > this.Dude.y) {
                 tree.setDepth(90);
             } else {
                 tree.setDepth(0)
@@ -67,7 +67,7 @@ export default class Main extends Phaser.Scene {
         });
         
         this.barrels.getChildren().forEach((barrel) => {
-            if (barrel.y - 5 > this.Dude.y) {
+            if (barrel.y -10 > this.Dude.y) {
                 barrel.setDepth(90);
             } else {
                 barrel.setDepth(0)
@@ -98,8 +98,8 @@ export default class Main extends Phaser.Scene {
         this.Dude = new Player({
             x: 200,
             y: 200,
-            key: "dude",
-            scale: 1.8,
+            key: "dudeSword",
+            scale: 1.4,
             speed: 320,
             maxHealth: 100,
             minHealth: 0,
@@ -189,7 +189,7 @@ export default class Main extends Phaser.Scene {
             .setScale(3.5)
             .setPushable(false)
             .setSize(10,7)
-            .setOffset(2, 6)
+            .setOffset(2, 8)
         });
         
         this.physics.add.collider(this.barrels, this.Dude);
@@ -282,9 +282,17 @@ export default class Main extends Phaser.Scene {
         if(item.name == "Bow") {
             this.Dude.selectedItem = 1
             this.Dude.holding = "Bow"
+            
+            this.Dude.setSize(24, 12)
+            this.Dude.setOffset(50, 80)
+            
         } else if(item.name == "sword") {
             this.Dude.selectedItem = 0
             this.Dude.holding = "Sowrd"
+            
+            this.Dude.setSize(24, 12)
+            this.Dude.setOffset(20,46)
+            
         }
         
         

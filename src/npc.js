@@ -19,11 +19,14 @@ export default class Npc extends Phaser.Physics.Arcade.Sprite {
         
         this.dialogNumber = 0;
         
-        this.setSize(15, 30);
-        this.setScale(options.scale || 1);
-        this.setCollideWorldBounds(true)
-        this.setPushable(true)
-        this.setMass(900)
+        this.setSize(15, 30)
+        .setScale(options.scale || 1)
+        .setCollideWorldBounds(true)
+        .setPushable(true)
+        .setMass(900)
+        .setDepth(3)
+        
+        console.log(this.dialog[this.dialogNumber])
         
         if (!this.animations) return;
         
@@ -43,7 +46,6 @@ export default class Npc extends Phaser.Physics.Arcade.Sprite {
         
         this.play(`${this.key}${this.animations[0].name}`);
     }
-    
     
     update() {
         const distance = Phaser.Math.Distance.BetweenPoints(this.scene.Dude, this);
