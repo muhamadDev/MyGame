@@ -25,7 +25,7 @@ export default class Chest extends Phaser.Physics.Arcade.Sprite {
             key: "inventoryContainer",
             id: 1,
             orientationY: false,
-            tooltitOffset: { x: 0, y: 230},
+            tooltitOffset: { x: -15, y: 90},
             space: options.space, 
             width: 70,
             height: 70, 

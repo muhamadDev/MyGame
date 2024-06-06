@@ -99,7 +99,7 @@ export default class Main extends Phaser.Scene {
             x: 200,
             y: 200,
             key: "dude",
-            scale: 1,
+            scale: 1.8,
             speed: 320,
             maxHealth: 100,
             minHealth: 0,
@@ -274,16 +274,27 @@ export default class Main extends Phaser.Scene {
             items: chestItems,
         }, this);
         
-        this.inv.addInventorys(this.chest1.inv);
+        this.inv.addInventorys(this.chest1.inv)
         
     }
     
     selectedItems(item) {
         if(item.name == "Bow") {
             this.Dude.selectedItem = 1
+            this.Dude.holding = "Bow"
         } else if(item.name == "sword") {
             this.Dude.selectedItem = 0
+            this.Dude.holding = "Sowrd"
         }
+        
+        
+        if (this.Dude.body.velocity.x == 0 && this.Dude.body.velocity.y == 0) {
+            this.Dude.play(`dude${this.Dude.holding}Idle${this.Dude.getData("facing")}`);
+            return
+        }
+        
+        this.Dude.play(`dude${this.Dude.holding}Wolk${this.Dude.getData("facing")}`);
+
         
     }
     

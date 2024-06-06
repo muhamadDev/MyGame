@@ -32,6 +32,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.setData("facing", "Front");
         this.setData("onAttack", false);
     
+        this.holding = playerItems[this.selectedItem].name;
+        
         this.setInteractive();
         
         this.on("pointerdown", (pointer) => {
@@ -43,7 +45,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         
         this.animations();
         
-        this.createJoyStick();
+        this.movement()
         
         this.createAttackBtn();
         
@@ -62,62 +64,99 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         
     }
     
-    createJoyStick() {
-        const base = this.scene.add.circle(0, 0, 100, 0x888888)
-        .setDepth(100)
+    movement() {
+        let btnY = 600;
+        let btnX = 140;
+        let scale = 5.9
         
-        const thumb = this.scene.add.circle(0, 0, 50, 0xcccccc).setDepth(100)
+        // left
+        let left = this.scene.add.sprite(btnX - 80, btnY, "movemontsBtn", 1);
+        left
+          .setOrigin(0.5, 0.5)
+          .setScale(scale)
+          .setInteractive()
+          .setScrollFactor(0)
+          .setDepth(100);
         
-        this.joyStick = this.scene.plugins.get('rexvirtualjoystickplugin').add(this, {
-            x: 140,
-            y: 610,
-            radius: 100,
-            base: base,
-            thumb: thumb,
-            dir: '4dir', // 'up&down'|0|'left&right'|1|'4dir'|2|'8dir'|3
-            // forceMin: 16,
-            // enable: true
-        }).on('update', () => {
-            this.movePlayer();
+        left.on("pointerdown", (pointer) => {
+            this.setVelocityX(-this.speed);
+            this.setData("facing", "Left");
+            this.play(`dude${this.holding}Wolk${this.getData("facing")}`);
+            
         });
         
-    }
+        left.on("pointerup", (pointer) => {
+            this.setVelocityX(0);
+            this.play(`dude${this.holding}Idle${this.getData("facing")}`);
+          
+        });
+        
+        // right
+        
+        let right = this.scene.add.image(btnX + 80, btnY, "movemontsBtn", 2);
+        right
+          .setOrigin(0.5, 0.5)
+          .setScale(scale)
+          .setInteractive()
+          .setDepth(100)
+          .setScrollFactor(0);
     
-    movePlayer() {
-        let cursorKeys = this.joyStick.createCursorKeys();
-        let holding = playerItems[this.selectedItem].name;
+        right.on("pointerdown", (pointer) => {
+            this.setVelocityX(this.speed);
+            this.setData("facing", "Right");
+            this.play(`dude${this.holding}Wolk${this.getData("facing")}`);
+        });
         
-        if (cursorKeys.left.isDown) {
-            this.setVelocityX(-this.speed)
-            this.setData("facing", "Left")
-        }
+        right.on("pointerup", (pointer) => {
+            this.setVelocityX(0);
+            this.play(`dude${this.holding}Idle${this.getData("facing")}`);
+            
+        });
         
-        if (cursorKeys.right.isDown) {
-            this.setVelocityX(this.speed)
-            this.setData("facing", "Right")
-        }
+        // top
+        let top = this.scene.add.sprite(btnX, btnY - 80, "movemontsBtn", 3); // 73.5
+        top
+          .setOrigin(0.5, 0.5)
+          .setScale(scale)
+          .setInteractive()
+          .setScrollFactor(0)
+          .setDepth(100);
+    
+        top.on("pointerdown", (pointer) => {
+            this.setVelocityY(-this.speed);
+            this.setData("facing", "Back");
+            this.play(`dude${this.holding}Wolk${this.getData("facing")}`);
+
+        });
         
-        if (cursorKeys.down.isDown) {
-            this.setVelocityY(this.speed)
-            this.setData("facing", "Front")
-        }
+        top.on("pointerup", (pointer) => {
+            this.setVelocityY(0);
+            this.play(`dude${this.holding}Idle${this.getData("facing")}`);
+            
+        });
+    
+        let bottom = this.scene.add.sprite(btnX, btnY + 80, "movemontsBtn", 0); //. 73.5
+        bottom
+          .setOrigin(0.5, 0.5)
+          .setScale(scale)
+          .setDepth(100)
+          .setScrollFactor(0)
+          .setInteractive();
+    
+        bottom.on("pointerdown", (pointer) => {
+            this.setVelocityY(this.speed);
+            this.setData("facing", "Front");
+            this.play(`dude${this.holding}Wolk${this.getData("facing")}`);
+            
+        });
         
-        if (cursorKeys.up.isDown) {
-            this.setVelocityY(-this.speed)
-            this.setData("facing", "Back")
-        }
-        
-        this.play(`dude${holding}Wolk${this.getData("facing")}`);
-        
-        if (!this.joyStick.left && !this.joyStick.right) {
-            this.setVelocityX(0)
-        }
-        
-        if (!this.joyStick.up && !this.joyStick.down) {
-            this.setVelocityY(0)
-        }
-        
+        bottom.on("pointerup", (pointer) => {
+            this.setVelocityY(0);
+            this.play(`dude${this.holding}Idle${this.getData("facing")}`);
+        });
     }
+
+    
 
     animations() { //animation
         let data = this.scene.cache.json.get("animation");
@@ -201,14 +240,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
     
     update() {
-        
-        if (this.getData("onAttack")) return
-        
-        if (this.body.velocity.x == 0 && this.body.velocity.y == 0) {
-            // this.play(`dudeSowrdIdle${this.getData("facing")}`);
-            let holding = playerItems[this.selectedItem].name;
-            this.play(`dude${holding}Idle${this.getData("facing")}`);
-        }
     }
     
     

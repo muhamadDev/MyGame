@@ -135,6 +135,12 @@
             "frameConfig": { "frameWidth": 128, "frameHeight": 128 }
         },
         {
+            "type": "spritesheet",
+            "key": "movemontsBtn",
+            "url": "../assets/ui/movemontsBtn.png",
+            "frameConfig": { "frameWidth": 16, "frameHeight": 16 }
+        },
+        {
             "type": "json",
             "key": "envirment",
             "url": "../json/envirment.json"
