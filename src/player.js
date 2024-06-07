@@ -222,6 +222,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
     
     update() {
+        //dudeBow
     }
     
     
@@ -251,7 +252,7 @@ export const playerItems = [
             player.isFirstAttack = false
             
             // run this function after 0.6s
-            player.scene.time.delayedCall(900, () => {
+            player.scene.time.delayedCall(600, () => {
                 player.isFirstAttack = true
             });
             
@@ -262,6 +263,7 @@ export const playerItems = [
         name: "Bow",
         action: (player) => {
             player.setData("onAttack", true);
+            player.setOffset(20,50)
             
             let swosh = player.scene.sound.add("swosh");
             
@@ -283,10 +285,9 @@ export const playerItems = [
                 
                 console.log("attack")
                     
-                let arrow = player.scene.physics.add.image(player.x, player.y, "arrow");
+                let arrow = player.scene.physics.add.image(player.x, player.y + 10, "arrow");
                 arrow.setScale(1.5)
                 player.arrows.add(arrow);
-                
                 
                 
                 
@@ -324,6 +325,5 @@ export const playerItems = [
             
         }
     }
-    
     
 ]

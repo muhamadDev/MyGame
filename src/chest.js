@@ -15,9 +15,9 @@ export default class Chest extends Phaser.Physics.Arcade.Sprite {
         this.firstTime = true;
         
         this.setScale(options.scale || 1)
-        
-        // this.x - (this.space * (70 /2) )
-        // this.y -60
+        .setSize(18,10)
+        .setOffset(this.body.offset.x, 20)
+        .setPushable(false)
         
         this.inv = new Inventory({
             x: options.x - (options.space * (70 / 2)),
@@ -51,9 +51,9 @@ export default class Chest extends Phaser.Physics.Arcade.Sprite {
         
         
         let animation = scene.anims.get(this.key);
-
+        
         let reversedFrames = animation.frames.slice().reverse();
-    
+        
         this.scene.anims.create({
             key: `${this.key}Reverse`,
             frames: this.anims.generateFrameNumbers(this.key, {

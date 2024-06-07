@@ -2,11 +2,11 @@
     "lewis": [
         {
             "time": 0,
-            "talk": "hellos are you new here? I've never seen you, my name is lewis nice to meet you i work here sametimes if you need anything tell me! ok dont forngrt"
+            "talk": "Hello are you new here I've never seen you befor anyway you look like a strong warrior, will you kill the bees around my house I give you a bow if you do that"
         }, {
             
-            "time": 1.5,
-            "talk": "hi thanks for healping me the bow I promesed you is on a chest in my house please take it"
+            "time": 0.9,
+            "talk": "hi, thanks for healping me. every now and then the bee will apear and attack the poeple of this town, I promised you a bow it inside a chest in my house go and git it thanks angin."
             
         }
     ]

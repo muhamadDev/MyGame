@@ -10,6 +10,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.dude = options.dude;
         this.speed = options.speed ||  100;
         this.isAlive = false; 
+        this.firstCollide = true
+        
         
         this.setScale(options.scale || 1);
         
@@ -18,15 +20,17 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.setCollideWorldBounds(true);
         this.isFollowingPlayer = false;
         
-        this.scene.anims.create({ 
-            key: options.key,
-            frames: this.scene.anims.generateFrameNumbers(options.key, {
-                start: 5,
-                end: 0
-            }),
-            frameRate: 6,
-            repeat: -1,
-        });
+        if (!this.scene.anims.exists(options.key)) {
+            this.scene.anims.create({ 
+                key: options.key,
+                frames: this.scene.anims.generateFrameNumbers(options.key, {
+                    start: 5,
+                    end: 0
+                }),
+                frameRate: 6,
+                repeat: -1,
+            });
+        }
         
         this.play(options.key)
         
@@ -43,7 +47,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
             loop: true,
         });
         
-        this.scene.time.addEvent({
+        this?.scene.time.addEvent({
             delay: 600,
             callback: () => {
                 if (!this.isAlive) return;
@@ -53,9 +57,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
             loop: true,
         });
         
-        
         this.on('die', (spr) => {
-            this.scene.tweens.add({
+            this?.scene.tweens.add({
                 targets: this,
                 alpha: 0,
                 duration: 500,
@@ -64,7 +67,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                     
                     this.isAlive = false
                     this.dude.heal(5);
-                    this.scene.healthBar.updateHealth();
+                    this?.scene.healthBar.updateHealth();
                     this.raycaster.destroy();
                     this.debugGraphics.clear();
                     this.destroy();
@@ -74,17 +77,28 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
             });
         });
         
-        this.firstFloadNumber = true;
+        this?.scene.time.addEvent({
+            delay: 600,
+            callback: () => {
+                this.firstCollide = true
+            },
+            callbackScope: this,
+            loop: true,
+        });
         
-        this.scene.physics.add.collider(this, options.dude, (enemy, dude) => {
-            if(!dude.isOnAttack) return;
-            enemy.damage(dude.damageToEnemy * 0.2);
+        this?.scene.physics.add.collider(this, options.dude, (enemy, dude) => {
+            if (!this.firstCollide) return;
+            if(!dude.getData("onAttack")) return;
+            
+            enemy.damage(dude.damageToEnemy);
+            this.firstCollide = false
             
         });
         
-        this.scene.physics.add.collider(this.bullets, options.dude, (dude, bullet) => {
+        
+        this?.scene.physics.add.collider(this.bullets, options.dude, (dude, bullet) => {
             dude.damage(this.damageToEnemy);
-            this.scene.healthBar.updateHealth();
+            this?.scene.healthBar.updateHealth();
             
             scene.tweens.add({
                 targets: bullet,
@@ -99,28 +113,25 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
             
         });
         
-        
-        this.scene.physics.add.collider(this.scene.Dude.arrows, this, (enemy, arrow) => {
+        this?.scene.physics.add.collider(this?.scene.Dude.arrows, this, (enemy, arrow) => {
             enemy.damage(10);
             arrow.destroy();
         });
         
         
+        this.raycaster = this?.scene.plugins.get('rexraycasterplugin').add()
+        .addObstacle(this?.scene.barrels.getChildren())
+        .addObstacle(this?.scene.houseWall.getChildren())
         
-        this.raycaster = this.scene.plugins.get('rexraycasterplugin').add()
-        .addObstacle(this.scene.barrels.getChildren())
-        .addObstacle(this.scene.houseWall.getChildren())
+        this.raycaster.maxRayLength = this.x - this?.scene.Dude.x;
         
-        this.raycaster.maxRayLength = this.x - this.scene.Dude.x;
+        this?.scene.physics.add.collider(this, this?.scene.barrels);
+        this?.scene.physics.add.collider(this.raycaster.ray, this?.scene.barrels);
         
-        this.scene.physics.add.collider(this, this.scene.barrels);
-        this.scene.physics.add.collider(this.raycaster.ray, this.scene.barrels);
-        
-        this.debugGraphics = this.scene.add.graphics();
+        this.debugGraphics = this?.scene.add.graphics();
         
         this.followPlayer = true;
         
-        // console.log(this.scene.physics.world.__proto__)
     }
     
     move() {

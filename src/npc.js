@@ -26,7 +26,6 @@ export default class Npc extends Phaser.Physics.Arcade.Sprite {
         .setMass(900)
         .setDepth(3)
         
-        console.log(this.dialog[this.dialogNumber])
         
         if (!this.animations) return;
         
@@ -41,7 +40,7 @@ export default class Npc extends Phaser.Physics.Arcade.Sprite {
                 frameRate: 6,
                 repeat: -1,
             });
-        
+            
         });
         
         this.play(`${this.key}${this.animations[0].name}`);
@@ -151,7 +150,7 @@ export function createTextBox(scene, x, y, wrapWidth, npc, npcName = "npc-LK-On"
             
             if (!npc.dialog[npc.dialogNumber]) return;
             
-            npc.scene.time.delayedCall(npc.dialog[npc.dialogNumber].time * 1000, () => {
+            npc.scene.time.delayedCall(npc.dialog[npc.dialogNumber].time * 10000, () => {
                 npc.shouldTalk = true
             });
             

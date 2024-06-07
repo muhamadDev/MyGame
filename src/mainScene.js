@@ -55,7 +55,7 @@ export default class Main extends Phaser.Scene {
         this.Dude.update();
         
         this.Bees.getChildren().forEach((bee) => {
-            bee.update(time, delta);
+            bee?.update(time, delta);
         });
         
         this.trees.getChildren().forEach((tree) => {
@@ -74,7 +74,9 @@ export default class Main extends Phaser.Scene {
             }
         });
         
-        this.chest1.update()
+        this.chests.getChildren().forEach(chest => {
+            chest.update()
+        })
         
         
         
@@ -150,10 +152,10 @@ export default class Main extends Phaser.Scene {
     createEnemy() {
         this.Bees = this.physics.add.group();
         
-        for (var i = 0; i < 1; i++) {
-            let bat = new Enemy({
-                x: 900 + ( i * 30),
-                y: 500 + (i * 30),
+        for (var i = 0; i < 3; i++) {
+            let bat = new Enemy({ 
+                x: 821 + ( i * 30),
+                y: 1154 + (i * 30),
                 key: "Bee",
                 scale: 2,
                 speed: 120,
@@ -169,8 +171,15 @@ export default class Main extends Phaser.Scene {
     
     createEnvirment() {
         let data = this.cache.json.get("envirment");
+        let houseData = this.cache.json.get("house");
+        
         
         this.trees = this.physics.add.group();
+        this.barrels = this.physics.add.group();
+        this.houseFloor = this.physics.add.group();
+        
+        this.houseWall = this.physics.add.staticGroup();
+        this.houseDecore = this.physics.add.staticGroup();
         
         data.trees.forEach((tree) => {
             this.trees.create(tree.x, tree.y, "Trees", tree.id)
@@ -180,9 +189,6 @@ export default class Main extends Phaser.Scene {
             .setPushable(false)
         });
         
-        this.physics.add.collider(this.trees, this.Dude);
-        
-        this.barrels = this.physics.add.group();
         
         data.barrel.forEach((barrle) => {
             this.barrels.create(barrle.x, barrle.y, "barrel", barrle.index)
@@ -192,14 +198,6 @@ export default class Main extends Phaser.Scene {
             .setOffset(2, 8)
         });
         
-        this.physics.add.collider(this.barrels, this.Dude);
-        
-        
-        let houseData = this.cache.json.get("house");
-        
-        this.houseFloor = this.physics.add.group();
-        
-        this.houseWall = this.physics.add.group();
         let x = 700
         let y = 680
         
@@ -211,11 +209,17 @@ export default class Main extends Phaser.Scene {
         houseData.layers[1].tiles.forEach((tile) => {
             this.houseWall.create(x +tile.x * 48, y + tile.y * 48, "houseSheet", +tile.id)
             .setScale(1.5)
-            .setPushable(false)
-            // .body.debugShowBody = false;
         });
         
+        data.houseDecore.forEach(decore => {
+            this.houseDecore.create(decore.x, decore.y, decore.key, +decore.index)
+        });
+        
+        
+        this.physics.add.collider(this.trees, this.Dude);
+        this.physics.add.collider(this.barrels, this.Dude);
         this.physics.add.collider(this.Dude, this.houseWall)
+        this.physics.add.collider(this.houseDecore, this.Dude);
     }
     
     createNpc() {
@@ -250,6 +254,8 @@ export default class Main extends Phaser.Scene {
     }
     
     createChest() {
+        this.chests = this.physics.add.group();
+        
         this.anims.create({
             key: "smallChest",
             frames: this.anims.generateFrameNumbers("smallChest"),
@@ -265,7 +271,7 @@ export default class Main extends Phaser.Scene {
             }
         ]
         
-        this.chest1 = new Chest({
+        let chest1 = new Chest({
             x: 930,
             y: 759,
             space: 4,
@@ -274,7 +280,11 @@ export default class Main extends Phaser.Scene {
             items: chestItems,
         }, this);
         
-        this.inv.addInventorys(this.chest1.inv)
+        this.inv.addInventorys(chest1.inv)
+        
+        this.chests.add(chest1)
+        
+        this.physics.add.collider(this.chests, this.Dude);
         
     }
     
