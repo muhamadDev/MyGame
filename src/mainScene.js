@@ -5,7 +5,7 @@ import HealthBar from "./healthBar.js";
 import Inventory from "../plugins/inventory.js";
 import PhaserTooltip from "../plugins/PhaserTooltip.js";
 import Chest from "./chest.js";
-import DayNightCycle from "./dayNightCycle.js"
+
 
 
 export default class Main extends Phaser.Scene {
@@ -28,6 +28,8 @@ export default class Main extends Phaser.Scene {
         
         this.createInventory();
         
+        this.createChest();
+        
         this.createEnvirment();
         
         this.createEnemy();
@@ -44,7 +46,6 @@ export default class Main extends Phaser.Scene {
         
         this.loadingRec.destroy();
         
-        this.createChest();
         
     }
     
@@ -77,8 +78,6 @@ export default class Main extends Phaser.Scene {
             chest.update()
         })
         
-        
-        
     }
     
     createMap() {
@@ -91,7 +90,6 @@ export default class Main extends Phaser.Scene {
         
         groundLayer.setScale(3)
         bridgeLayer.setScale(3)
-        
         
     }
     
@@ -132,9 +130,8 @@ export default class Main extends Phaser.Scene {
             onClickCallback: (item, pointer) => {
                 this.selectedItems(item);
             },
-            inventorys: []
+            inventorys: [],
         }, this);
-        
         
         this.inv.addItem("sword", {
             qountity: 1,
@@ -145,7 +142,6 @@ export default class Main extends Phaser.Scene {
             qountity: 1,
             text: "Bow"
         });
-        
         
     }
     
@@ -278,13 +274,13 @@ export default class Main extends Phaser.Scene {
         let chest1 = new Chest({
             x: 930,
             y: 759,
-            space: 4,
             key: "smallChest",
+            space: 4,
             scale: 3,
             items: chestItems,
         }, this);
         
-        this.inv.addInventorys(chest1.inv)
+        this.inv.addInventorys(chest1.inv) 
         
         this.chests.add(chest1)
         
@@ -319,7 +315,5 @@ export default class Main extends Phaser.Scene {
 
         
     }
-    
-    
     
 }

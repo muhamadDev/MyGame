@@ -18,6 +18,7 @@ export default class Chest extends Phaser.Physics.Arcade.Sprite {
         .setSize(18,10)
         .setOffset(this.body.offset.x, 20)
         .setPushable(false)
+        .setDepth(5)
         
         this.inv = new Inventory({
             x: options.x - (options.space * (70 / 2)),
@@ -49,7 +50,6 @@ export default class Chest extends Phaser.Physics.Arcade.Sprite {
             container.hide();
         });
         
-        
         let animation = scene.anims.get(this.key);
         
         let reversedFrames = animation.frames.slice().reverse();
@@ -63,7 +63,7 @@ export default class Chest extends Phaser.Physics.Arcade.Sprite {
             frameRate: 16,
             repeat: 0,
         });
-
+        
     }
     
     update(time, delta) {
@@ -79,16 +79,15 @@ export default class Chest extends Phaser.Physics.Arcade.Sprite {
             this.inv.close()
         }
         this.inv?.update();
-                
+        
     }
     
     openChest() {
         
         if (this.firstTime) {
             this.play(this.key);
-            this.inv.containerGroup.getChildren().forEach(container => {
-                container.show();
-            });
+            
+            this.inv.open()
             
             this.firstTime = false;
             return;
@@ -97,7 +96,6 @@ export default class Chest extends Phaser.Physics.Arcade.Sprite {
         this.inv.close()
         
         this.firstTime = true;
-        
         
     }
     

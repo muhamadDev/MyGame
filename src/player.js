@@ -235,6 +235,7 @@ export const playerItems = [
         name: "Sowrd",
         action: (player) => {
             player.setData("onAttack", true);
+            player.damageToEnemy = 10
             player.play(`dudeSowrdAttack${player.getData("facing")}`);
             
             let swosh = player.scene.sound.add("swosh");
@@ -265,7 +266,7 @@ export const playerItems = [
             player.setData("onAttack", true);
             player.setOffset(20,50)
             
-            let swosh = player.scene.sound.add("bowRelease");
+            let swosh = player.scene.sound.add("swosh");
             
             swosh.play({
                 mute: false,
@@ -283,7 +284,7 @@ export const playerItems = [
             
             player.on(`animationcomplete-dudeBowAttack${player.getData("facing")}`, () => {
                 
-                console.log("attack")
+                player.damageToEnemy = 80
                     
                 let arrow = player.scene.physics.add.image(player.x, player.y + 10, "arrow");
                 arrow.setScale(1.5)

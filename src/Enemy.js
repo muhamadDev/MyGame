@@ -113,8 +113,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
             
         });
         
-        this?.scene.physics.add.collider(this?.scene.Dude.arrows, this, (enemy, arrow) => {
-            enemy.damage(10);
+        this?.scene.physics.add.collider(options.dude.arrows, this, (enemy, arrow) => {
+            enemy.damage(options.dude.damageToEnemy);
             arrow.destroy();
         });
         

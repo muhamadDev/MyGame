@@ -1,5 +1,8 @@
 import Main from "./mainScene.js";
 
+
+eruda.init()
+
 let config = {
     type: Phaser.AUTO,
     width: 1280, 
