@@ -5,7 +5,7 @@ import HealthBar from "./healthBar.js";
 import Inventory from "../plugins/inventory.js";
 import PhaserTooltip from "../plugins/PhaserTooltip.js";
 import Chest from "./chest.js";
-
+import DayNightCycle from "./dayNightCycle.js"
 
 
 export default class Main extends Phaser.Scene {
@@ -46,7 +46,6 @@ export default class Main extends Phaser.Scene {
         
         this.createChest();
         
-        
     }
     
     update(time, delta) {
@@ -83,12 +82,12 @@ export default class Main extends Phaser.Scene {
     }
     
     createMap() {
-        const map = this.make.tilemap({ key: "map", tileWidth: 32, tileHeight: 32});
+        this.map = this.make.tilemap({ key: "map", tileWidth: 32, tileHeight: 32});
         
-        const tileset = map.addTilesetImage("tile","Tileset");
+        const tileset = this.map.addTilesetImage("tile","Tileset");
         
-        const groundLayer = map.createLayer("ground", tileset, 0, 0);
-        const bridgeLayer = map.createLayer("bridge", tileset, 0, 0);
+        const groundLayer = this.map.createLayer("ground", tileset, 0, 0);
+        const bridgeLayer = this.map.createLayer("bridge", tileset, 0, 0);
         
         groundLayer.setScale(3)
         bridgeLayer.setScale(3)
@@ -147,13 +146,14 @@ export default class Main extends Phaser.Scene {
             text: "Bow"
         });
         
+        
     }
     
     createEnemy() {
         this.Bees = this.physics.add.group();
         
         for (var i = 0; i < 3; i++) {
-            let bat = new Enemy({ 
+            let bee = new Enemy({ 
                 x: 821 + ( i * 30),
                 y: 1154 + (i * 30),
                 key: "Bee",
@@ -163,8 +163,10 @@ export default class Main extends Phaser.Scene {
                 damageToEnemy: 10
             }, this);
             
-            this.Bees.add(bat);
+            this.Bees.add(bee);
         }
+        
+        
         this.physics.add.collider(this.Bees, this.Bees);
         
     }
@@ -209,6 +211,8 @@ export default class Main extends Phaser.Scene {
         houseData.layers[1].tiles.forEach((tile) => {
             this.houseWall.create(x +tile.x * 48, y + tile.y * 48, "houseSheet", +tile.id)
             .setScale(1.5)
+            .setSize(44,44)
+            .setOffset(-5,-5)
         });
         
         data.houseDecore.forEach(decore => {

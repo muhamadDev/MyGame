@@ -62,6 +62,16 @@
             "url": ["../assets/audio/swosh.ogg", "../assets/audio/swosh.mp3"]
         },
         {
+            "type": "audio",
+            "key": "bowRelease",
+            "url": ["../assets/audio/bow_release.mp3"]
+        },
+        {
+            "type": "audio",
+            "key": "chestOpening",
+            "url": ["../assets/audio/chest-opening.ogg", "../assets/audio/chest-opening.mp3"]
+        },
+        {
             "type": "spritesheet",
             "key": "sprite",
             "url": "../assets/Environment/spritesheet.png",

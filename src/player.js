@@ -265,11 +265,11 @@ export const playerItems = [
             player.setData("onAttack", true);
             player.setOffset(20,50)
             
-            let swosh = player.scene.sound.add("swosh");
+            let swosh = player.scene.sound.add("bowRelease");
             
             swosh.play({
                 mute: false,
-                volume: 0.05,
+                volume: 0.5,
                 rate: 1,
                 detune: 0,
                 seek: 0,

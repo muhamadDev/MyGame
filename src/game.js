@@ -1,7 +1,7 @@
 import Main from "./mainScene.js";
 
 let config = {
-    type: Phaser.CANVAS,
+    type: Phaser.AUTO,
     width: 1280, 
     height: 720,
     backgroundColor: 0x000000,
