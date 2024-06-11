@@ -1,6 +1,5 @@
 import Main from "./mainScene.js";
 
-
 eruda.init()
 
 let config = {

@@ -5,13 +5,14 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.scene.add.existing(this);
         this.scene.physics.add.existing(this);
         
+        this.options = options;
         
         this.speed = options.speed || 100
         this.maxHealth = options.maxHealth || 100;
         this.minHealth = options.minHealth || 0;
         this.health = options.health || 50;
+        
         this.damageToEnemy = options.damageToEnemy || 0;
-        this.timeBettwenEachAttack = options.timeBettwenEachAttack || 600;
         this.selectedItem = 0
         
         this.isFirstAttack = true;
@@ -25,8 +26,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.setScale(options.scale)
         .setDepth(4)
         .setCollideWorldBounds(true)
-        .setSize(24, 12)
-        .setOffset(20,46)
         .setPushable(false)
         .setMass(10)
         
@@ -38,6 +37,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.on("pointerdown", (pointer) => {
             console.log(Math.floor(this.x), Math.floor(this.y))
         });
+        
+        this.handlePlayerSize()
         
         this.animations();
         
@@ -57,6 +58,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         });
         
         this.arrows = this.scene.physics.add.group();
+        
         
     }
     
@@ -78,6 +80,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             this.setVelocityX(-this.speed);
             this.setData("facing", "Left");
             this.play(`dude${this.holding}Wolk${this.getData("facing")}`);
+            this.handlePlayerSize()
             
         });
         
@@ -101,6 +104,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             this.setVelocityX(this.speed);
             this.setData("facing", "Right");
             this.play(`dude${this.holding}Wolk${this.getData("facing")}`);
+            this.handlePlayerSize()
         });
         
         right.on("pointerup", (pointer) => {
@@ -122,6 +126,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             this.setVelocityY(-this.speed);
             this.setData("facing", "Back");
             this.play(`dude${this.holding}Wolk${this.getData("facing")}`);
+            this.handlePlayerSize()
 
         });
         
@@ -143,6 +148,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             this.setVelocityY(this.speed);
             this.setData("facing", "Front");
             this.play(`dude${this.holding}Wolk${this.getData("facing")}`);
+            this.handlePlayerSize()
             
         });
         
@@ -150,6 +156,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             this.setVelocityY(0);
             this.play(`dude${this.holding}Idle${this.getData("facing")}`);
         });
+        
     }
 
     animations() { //animation
@@ -221,11 +228,18 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         console.log("Throwing Bomb");
     }
     
-    update() {
-        //dudeBow
+    
+    handlePlayerSize() {
+        if (this.texture.key !== "dudeBow2") {
+            this.setSize(21, 10)
+            this.setOffset(20, 45)
+            return
+        }
+        
+        this.setSize(21, 10);
+        this.setOffset(52, 77);
+        
     }
-    
-    
     
 }
 
@@ -233,7 +247,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 export const playerItems = [
     {
         name: "Sowrd",
-        action: (player) => {
+        timeBettwenEachAttack: 600,
+        action: function(player) {
             player.setData("onAttack", true);
             player.damageToEnemy = 10
             player.play(`dudeSowrdAttack${player.getData("facing")}`);
@@ -252,8 +267,7 @@ export const playerItems = [
             
             player.isFirstAttack = false
             
-            // run this function after 0.6s
-            player.scene.time.delayedCall(600, () => {
+            player.scene.time.delayedCall(this.timeBettwenEachAttack, () => {
                 player.isFirstAttack = true
             });
             
@@ -262,58 +276,61 @@ export const playerItems = [
     },
     {
         name: "Bow",
-        action: (player) => {
+        timeBettwenEachAttack: 900,
+        setArrowVelocity(player, arrow, velocity = 500) {
+            
+            if(player.getData("facing") == "Right") {
+                arrow.setVelocityX(500)
+            } else if(player.getData("facing") == "Left") {
+                    
+                arrow.setVelocityX(-500)
+                arrow.flipX = true
+                    
+            } else if (player.getData("facing") == "Back") {
+                    
+                arrow.setVelocityY(-500)
+                arrow.setAngle(-90)
+            } else if (player.getData("facing") == "Front") {
+                
+                arrow.setVelocityY(500)
+                arrow.setAngle(90);
+                
+            }
+
+        },
+        action: function (player) {
             player.setData("onAttack", true);
-            player.setOffset(20,50)
             
             let swosh = player.scene.sound.add("swosh");
             
-            swosh.play({
-                mute: false,
-                volume: 0.5,
-                rate: 1,
-                detune: 0,
-                seek: 0,
-                loop: false,
-                delay: 0,
-            });
-            
-            
-            
             player.play(`dudeBowAttack${player.getData("facing")}`);
+            player.handlePlayerSize()
             
-            player.on(`animationcomplete-dudeBowAttack${player.getData("facing")}`, () => {
+            const animationEvent= `animationcomplete-dudeBowAttack${player.getData("facing")}`
+            
+            player.on(animationEvent, () => {
+                
+                swosh.play({
+                    mute: false,
+                    volume: 0.5,
+                    rate: 1,
+                    detune: 0,
+                    seek: 0,
+                    loop: false,
+                    delay: 0,
+                });
                 
                 player.damageToEnemy = 80
                     
-                let arrow = player.scene.physics.add.image(player.x, player.y + 10, "arrow");
+                const arrow = player.scene.physics.add.image(player.x, player.y + 10, "arrow");
                 arrow.setScale(1.5)
                 player.arrows.add(arrow);
                 
-                
-                
-                if(player.getData("facing") == "Right") {
-                    arrow.setVelocityX(500)
-                } else if(player.getData("facing") == "Left") {
-                    
-                    arrow.setVelocityX(-500)
-                    arrow.flipX = true
-                    
-                } else if (player.getData("facing") == "Back") {
-                    
-                    arrow.setVelocityY(-500)
-                    arrow.setAngle(-90)
-                    
-                } else if (player.getData("facing") == "Front") {
-                    
-                    arrow.setVelocityY(500)
-                    arrow.setAngle(90);
-                    
-                }
+                this.setArrowVelocity(player, arrow, 500)
                 
                 player.isFirstAttack = false
                 
-                player.scene.time.delayedCall(900, () => {
+                player.scene.time.delayedCall(this.timeBettwenEachAttack, () => {
                     player.isFirstAttack = true
                 });
                 
@@ -321,7 +338,7 @@ export const playerItems = [
                     arrow.destroy()
                     player.setData("onAttack", false);
                 });
-            
+                
             });
             
         }

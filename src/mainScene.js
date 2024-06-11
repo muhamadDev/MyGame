@@ -46,13 +46,11 @@ export default class Main extends Phaser.Scene {
         
         this.loadingRec.destroy();
         
-        
     }
     
     update(time, delta) {
         this.npc.update();
         this.inv.update();
-        this.Dude.update();
         
         this.Bees.getChildren().forEach((bee) => {
             bee?.update(time, delta);
@@ -94,6 +92,7 @@ export default class Main extends Phaser.Scene {
     }
     
     createPlayer() {
+        
         this.Dude = new Player({
             x: 200,
             y: 200,
@@ -103,7 +102,6 @@ export default class Main extends Phaser.Scene {
             maxHealth: 100,
             minHealth: 0,
             health: 100,
-            timeBettwenEachAttack: 300,
             damageToEnemy: 10
         }, this);
         
@@ -126,7 +124,7 @@ export default class Main extends Phaser.Scene {
             height: 70, 
             padding: 10, 
             scrollFactor: 0, 
-            onDbClick: (item, pointer) => {} ,
+            onDbClick: (item, pointer) => {this.Dude.handlePlayerSize()} ,
             onClickCallback: (item, pointer) => {
                 this.selectedItems(item);
             },
@@ -293,26 +291,22 @@ export default class Main extends Phaser.Scene {
             this.Dude.selectedItem = 1
             this.Dude.holding = "Bow"
             
-            this.Dude.setSize(24, 12)
-            this.Dude.setOffset(50, 80)
-            
         } else if(item.name == "sword") {
             this.Dude.selectedItem = 0
             this.Dude.holding = "Sowrd"
-            
-            this.Dude.setSize(24, 12)
-            this.Dude.setOffset(20,46)
             
         }
         
         
         if (this.Dude.body.velocity.x == 0 && this.Dude.body.velocity.y == 0) {
             this.Dude.play(`dude${this.Dude.holding}Idle${this.Dude.getData("facing")}`);
+            this.Dude.handlePlayerSize()
             return
         }
         
         this.Dude.play(`dude${this.Dude.holding}Wolk${this.Dude.getData("facing")}`);
-
+        
+        this.Dude.handlePlayerSize()
         
     }
     
