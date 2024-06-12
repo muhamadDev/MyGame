@@ -12,8 +12,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.isAlive = false; 
         this.firstCollide = true
         
-        
-        this.setScale(options.scale || 1);
+        this.setSize(20,20)
+        this.setScale(options.scale);
         
         PhaserHealth.AddTo(this, options.health || 100, 0, options.maxHealth || 100);
         
@@ -78,7 +78,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         });
         
         this?.scene.time.addEvent({
-            delay: 600,
+            delay: 300,
             callback: () => {
                 this.firstCollide = true
             },
@@ -199,7 +199,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.debugGraphics
         .clear()
         .lineStyle(1, 0x47FF35)
-        .strokeLineShape(this.raycaster.ray);
+        .strokeLineShape(this.raycaster.ray)
+        .setAlpha(0)
         
         var result = this.raycaster.rayToward(this.x, this.y, angle)
         

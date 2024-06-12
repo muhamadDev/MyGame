@@ -228,7 +228,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         console.log("Throwing Bomb");
     }
     
-    
     handlePlayerSize() {
         if (this.texture.key !== "dudeBow2") {
             this.setSize(21, 10)
@@ -250,14 +249,14 @@ export const playerItems = [
         timeBettwenEachAttack: 600,
         action: function(player) {
             player.setData("onAttack", true);
-            player.damageToEnemy = 10
+            player.damageToEnemy = 40
             player.play(`dudeSowrdAttack${player.getData("facing")}`);
             
             let swosh = player.scene.sound.add("swosh");
             
             swosh.play({
                 mute: false,
-                volume: 0.05,
+                volume: 0.1,
                 rate: 1,
                 detune: 0,
                 seek: 0,
@@ -274,6 +273,7 @@ export const playerItems = [
             
         }
     },
+    
     {
         name: "Bow",
         timeBettwenEachAttack: 900,
@@ -296,8 +296,9 @@ export const playerItems = [
                 arrow.setAngle(90);
                 
             }
-
+            
         },
+        
         action: function (player) {
             player.setData("onAttack", true);
             
@@ -341,6 +342,14 @@ export const playerItems = [
                 
             });
             
+        }
+    },
+    
+    {
+        name: "hand",
+        
+        action: function (player) {
+            console.log("punch")
         }
     }
     

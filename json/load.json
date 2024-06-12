@@ -57,6 +57,16 @@
             "url": "../assets/ui/energy.png"
         },
         {
+            "type": "image",
+            "key": "HealthContainer",
+            "url": "../assets/ui/HealthContainer.png"
+        },
+        {
+            "type": "image",
+            "key": "HealthBar",
+            "url": "../assets/ui/HealthBar.png"
+        },
+        {
             "type": "audio",
             "key": "swosh",
             "url": ["../assets/audio/swosh.ogg", "../assets/audio/swosh.mp3"]
@@ -100,7 +110,7 @@
             "type": "spritesheet",
             "key": "npc1",
             "url": "../assets/npc/npc1.png",
-            "frameConfig": { "frameWidth": 32, "frameHeight": 48 }
+            "frameConfig": { "frameWidth": 64, "frameHeight": 64 }
         },
         {
             "type": "spritesheet",

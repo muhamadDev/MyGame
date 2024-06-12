@@ -1,6 +1,6 @@
 export default class Npc extends Phaser.Physics.Arcade.Sprite {
     constructor(options, scene) {
-        super(scene, options.x, options.y, options.key);
+        super(scene, options.x, options.y, options.key, 130);
         this.scene.add.existing(this);
         this.scene.physics.add.existing(this);
         

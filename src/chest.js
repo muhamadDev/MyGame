@@ -18,7 +18,7 @@ export default class Chest extends Phaser.Physics.Arcade.Sprite {
         .setSize(18,10)
         .setOffset(this.body.offset.x, 20)
         .setPushable(false)
-        .setDepth(5)
+        .setDepth(3)
         
         this.inv = new Inventory({
             x: options.x - (options.space * (70 / 2)),
@@ -94,7 +94,7 @@ export default class Chest extends Phaser.Physics.Arcade.Sprite {
         }
         
         this.inv.close()
-        
+        this.setFrame(0)
         this.firstTime = true;
         
     }
