@@ -6,8 +6,6 @@ import Inventory from "../plugins/inventory.js";
 import PhaserTooltip from "../plugins/PhaserTooltip.js";
 import Chest from "./chest.js";
 
-
-
 export default class Main extends Phaser.Scene {
     constructor() {
         super({ key: "scene" });
@@ -42,7 +40,7 @@ export default class Main extends Phaser.Scene {
         this.input.addPointer(5);
         
         this.healthBar = new HealthBar(this);
-        this.healthBar.create(130, 60);
+        this.healthBar.create(130, 50);
         
         this.loadingRec.destroy();
         
@@ -124,7 +122,11 @@ export default class Main extends Phaser.Scene {
             height: 70, 
             padding: 10, 
             scrollFactor: 0, 
-            onDbClick: (item, pointer) => {this.Dude.handlePlayerSize()} ,
+            onDbClick: (item, pointer) => {
+                this.Dude.handlePlayerSize()
+                this.Dude.selectedItem = 2
+                this.Dude.holding = "Sowrd"
+            } ,
             onClickCallback: (item, pointer) => {
                 this.selectedItems(item);
             },
@@ -136,10 +138,13 @@ export default class Main extends Phaser.Scene {
             text: "sword"
         });
         
-        this.inv.addItem("Bow", {
-            qountity: 1,
-            text: "Bow"
-        });
+        // const a = this.inv.addItem("Bow", {
+        //     qountity: 1,
+        //     text: "Bow",
+        //     action: "nothing"
+        // });
+        
+        // console.log(a.children[1].getData("info").action)
         
     }
     
@@ -148,8 +153,8 @@ export default class Main extends Phaser.Scene {
         
         for (var i = 0; i < 3; i++) {
             let bee = new Enemy({ 
-                x: 821 + ( i * 30),
-                y: 1154 + (i * 30),
+                x: 821 + ( i * 50),
+                y: 1154 + (i * 60),
                 key: "Bee",
                 scale: 2,
                 speed: 120,
@@ -160,6 +165,18 @@ export default class Main extends Phaser.Scene {
             this.Bees.add(bee);
         }
         
+        for (var i = 0; i < 5; i++) {
+            let bee = new Enemy({
+                x: 2117 + (i * 50),
+                y: 2069 + (i * 60),
+                key: "Bee",
+                scale: 2,
+                speed: 120,
+                dude: this.Dude,
+                damageToEnemy: 10
+            }, this);
+            this.Bees.add(bee);
+        }
         
         this.physics.add.collider(this.Bees, this.Bees);
         
@@ -168,7 +185,6 @@ export default class Main extends Phaser.Scene {
     createEnvirment() {
         let data = this.cache.json.get("envirment");
         let houseData = this.cache.json.get("house");
-        
         
         this.trees = this.physics.add.group();
         this.barrels = this.physics.add.group();
@@ -180,8 +196,8 @@ export default class Main extends Phaser.Scene {
         data.trees.forEach((tree) => {
             this.trees.create(tree.x, tree.y, "Trees", tree.id)
             .setScale(4.5)
-            .setSize(10, 3)
-            .setOffset(17, 50)
+            .setSize(10, 5)
+            .setOffset(18, 48)
             .setPushable(false)
         });
         
@@ -191,7 +207,7 @@ export default class Main extends Phaser.Scene {
             .setScale(3.5)
             .setPushable(false)
             .setSize(10,7)
-            .setOffset(2, 8)
+            .setOffset(3, 8)
         });
         
         let x = 700
@@ -205,19 +221,37 @@ export default class Main extends Phaser.Scene {
         houseData.layers[1].tiles.forEach((tile) => {
             this.houseWall.create(x +tile.x * 48, y + tile.y * 48, "houseSheet", +tile.id)
             .setScale(1.5)
-            .setSize(44,44)
-            .setOffset(-5,-5)
+            .setSize(44,60)
+            .setOffset(-5,-18)
         });
         
         data.houseDecore.forEach(decore => {
             this.houseDecore.create(decore.x, decore.y, decore.key, +decore.index)
         });
         
+        const watterZone = this.add.zone(1480, 2070, 395, 389).setOrigin(0,0)
+        this.physics.add.existing(watterZone);
+        watterZone.body.setImmovable(true)
         
         this.physics.add.collider(this.trees, this.Dude);
         this.physics.add.collider(this.barrels, this.Dude);
         this.physics.add.collider(this.Dude, this.houseWall)
         this.physics.add.collider(this.houseDecore, this.Dude);
+        
+        this.physics.add.collider(watterZone, this.Dude)
+        
+        this.physics.add.collider(this.houseWall, this.Dude.arrows, (wall, arrow) => {
+            arrow.destroy();
+        })
+        
+        this.physics.add.collider(this.barrels, this.Dude.arrows, (barre, arrow) => {
+            arrow.destroy();
+        })
+        
+        this.physics.add.collider(this.trees, this.Dude.arrows, (tree, arrow) => {
+            arrow.destroy();
+        })
+        
     }
     
     createNpc() {
@@ -226,28 +260,24 @@ export default class Main extends Phaser.Scene {
         this.npc = new Npc({
             key: "npc1",
             x: 456,
-            y: 600,
+            y: 585,
             npcName: "steven holk",
             id: 0,
             speed: 120,
-            scale: 2.3,
+            scale: 1.4,
             sale: true,
             dialog: data.lewis,
             animations: [{
                 name: "Idle",
-                start: 8,
-                end: 11
+                start: 130,
+                end: 130
                 
             }]
         },this);
         
-        this.physics.add.collider(this.npc, this.Dude, (npc, dude) => {
-            
-            this.time.delayedCall(300, () => {
-                npc.setVelocity(0)
-            });
-            
-        });
+        this.physics.add.collider(this.npc, this.Dude);
+        this.physics.add.collider(this.npc, this.houseWall)
+        this.npc.setDrag(100000)
         
     }
     

@@ -66,7 +66,7 @@ export default class Inventory {
                 item.tooltip.destroy();
                 item.tooltip = this.addTooltip(item, text, this.scrollFactor);
                 
-                return
+                return item;
             }
             
             notExist++
@@ -76,6 +76,7 @@ export default class Inventory {
         
         let firstTime = true;
         
+        let theContainer = null;
         this.containerGroup.getChildren().forEach((container, index) => {
             
             if (container.data.values.isFull) return;
@@ -96,12 +97,12 @@ export default class Inventory {
             this.containerGroup.add(container);
             firstTime = false;
             
-        
+            theContainer = container
             
         });
-    
+        
+        return theContainer
     }
-    
     
     removeItem(icon, qountity = 1) {
         let notExist = 0;

@@ -5,35 +5,45 @@ export default class HealthBar {
     }
     
     create(x = 100,y = 60) {
-        let status = this.scene.add.image(x,y, 'dudeStatus');
-        status.setScale(3)
+        let healthContainer = this.scene.add.image(x, y, 'HealthContainer');
+        healthContainer.setScale(3.5)
         .setScrollFactor(0)
         .setDepth(100);
         
         
         this.healthLine = [];
         
+        this.x = x;
+        this.y = y;
+        
         this.updateHealth();
     }
     
     updateHealth() {
-        let health = this.scene.Dude.getData("health");
-        let newHealth = Math.floor(health / 6);
+        this?.healthBar?.destroy();
+        this?.healthBarMask?.destroy()
         
-        this.healthLine.forEach(line => {
-            line.destroy();
-        });
-        this.healthLine = []
-             
-        for (var i = 0; i < newHealth; i++) {
-            let x = 76;
-            let line = this.scene.add.image(x + (i * 8), 33, 'health')
-            .setScale(3.8)
-            .setOrigin(0, 0)
-            .setScrollFactor(0)
-            .setDepth(140); 
-            this.healthLine.push(line)
-        }
+        this.healthBar = this.scene.add.image(this.x, this.y, 'HealthBar')
+        
+        this.healthBar.setScale(3.5)
+        .setScrollFactor(0)
+        .setDepth(100);
+        
+        this.healthBarMask = this.scene.add.image(this.x, this.y, 'HealthBar')
+        
+        this.healthBarMask.setScale(3.5)
+        .setScrollFactor(0)
+        .setDepth(100)
+        
+        this.healthBarMask.visible = false;
+        
+        
+        
+        let health = this.scene.Dude.getData("health");
+        let pashgr = this.x > 100 ? this.x - 100 : 0
+        
+        this.healthBar.mask = new Phaser.Display.Masks.BitmapMask(this.scene, this.healthBarMask);
+        this.healthBarMask.x = health + pashgr
         
     }
     
