@@ -4,12 +4,11 @@ export default class Npc extends Phaser.Physics.Arcade.Sprite {
         this.scene.add.existing(this);
         this.scene.physics.add.existing(this);
         
-        this.key = options.key;
+        this.options = options;
         this.speed = options.speed || 100;
         this.dialog = options.dialog;
         this.npcName = options.npcName;
         this.sale = options.sale || false;
-        this.animations = options.animations;
         
         this.scene = scene;
         
@@ -22,48 +21,124 @@ export default class Npc extends Phaser.Physics.Arcade.Sprite {
         this.setSize(15, 30)
         .setScale(options.scale || 1)
         .setCollideWorldBounds(true)
-        .setPushable(true)
-        .setMass(900)
-        .setDepth(3)
+        .setPushable(false)
+        .setDepth(4)
         
+        this.animation();
+        this.play(`npcIdleFront-${this.options.key}`);
         
-        if (!this.animations) return;
+        this.movement();
         
-        this.animations.forEach((item) => {
-            
+        this.scene.time.addEvent({
+            delay: 2000,
+            callback: () => {
+                this.movement();
+            },
+            callbackScope: this,
+            loop: true
+        });
+    }
+    
+    animation() {
+        let data = this.scene.cache.json.get("animation");
+        const frameRate = 10
+        
+        data.npc1.forEach((anims) => {
             this.scene.anims.create({
-                key: `${this.key}${item.name}`,
-                frames: this.scene.anims.generateFrameNumbers(this.key, {
-                    start: item.start,
-                    end: item.end
+                key: `${anims.key}-${this.options.key}`,
+                frames: this.scene.anims.generateFrameNumbers(this.options.key, {
+                    start: anims.start,
+                    end: anims.end
                 }),
-                frameRate: 6,
-                repeat: -1,
+                
+                frameRate: frameRate,
+                repeat: anims.repeat,
             });
-            
+        
         });
         
-        this.play(`${this.key}${this.animations[0].name}`);
     }
     
     update() {
         const distance = Phaser.Math.Distance.BetweenPoints(this.scene.Dude, this);
         
         if (this.shouldTalk && distance < 60 && this.dialog) {
+            this.scene.Dude.setVelocity(0)
+            this.anims.play(`npcIdle${this.direction}-${this.options.key}`, true);
             this.scene.physics.pause();
             
-            this.scene.Dude.setVelocity(0)
             createTextBox(this.scene, 215, 480, 800, this, this.npcName)
             .start(this.dialog[this.dialogNumber].talk, 40);
+            
             this.shouldTalk = false
             
         }
         
+        const mainPoint = new Phaser.Math.Vector2(this.options.x, this.options.y);
+        
+        const distanceMainPointNpc = Phaser.Math.Distance.BetweenPoints(mainPoint, this);
+        
+        if(distanceMainPointNpc > 700) {
+            const angle = Phaser.Math.Angle.BetweenPoints(mainPoint, this);
+            let angleInDegrees = Phaser.Math.RadToDeg(angle);
+            let direction = angleToDirection(angleInDegrees);
+            this.movement(direction)
+        }
+        
+        function angleToDirection(angleInDegrees) {
+            // Convert angle to a standard range (-180 to 180 degrees)
+            let normalizedAngle = Phaser.Math.Angle.Normalize(angleInDegrees);
+            
+            // Determine direction based on angle ranges
+            if (normalizedAngle >= -45 && normalizedAngle < 45) {
+                return 'Right';
+            } else if (normalizedAngle >= 45 && normalizedAngle < 135) {
+                return 'Front';
+            } else if (normalizedAngle >= 135 || normalizedAngle < -135) {
+                return 'Left';
+            } else {
+                return 'Back';
+            }
+        }
         
     }
     
+    movement(cutDirection) {
+        
+        const directions = ['Left', 'Right', 'Back', 'Front'];
+        
+        if (cutDirection) {
+            const indexOfCutDir = directions.indexOf(cutDirection);
+            direction.splice(indexOfCutDir, 1)
+        }
+        
+        const direction = Phaser.Utils.Array.GetRandom(directions);
+        
+        this.direction = direction;
+        this.setVelocity(0); // Stop any existing movement
+        
+        switch (direction) {
+            case 'Left':
+                this.setVelocityX(-this.speed);
+                this.anims.play(`npcWolkLeft-${this.options.key}`, true);
+                break;
+            case 'Right':
+                this.setVelocityX(this.speed);
+                this.anims.play(`npcWolkRight-${this.options.key}`, true);
+                break;
+            case 'Back':
+                this.setVelocityY(-this.speed);
+                this.anims.play(`npcWolkBack-${this.options.key}`, true);
+                break;
+            case 'Front':
+                this.setVelocityY(this.speed);
+                this.anims.play(`npcWolkFront-${this.options.key}`, true);
+                break;
+        }
+        
+        
+    }
 }
-
 
 
 const COLOR_MAIN = 0x4e342e;

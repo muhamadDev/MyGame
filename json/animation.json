@@ -177,6 +177,58 @@
 
         
         
+    ],
+    "npc1": [
+        {
+            "key": "npcIdleBack",
+            "start": 104,
+            "end": 104,
+            "repeat": -1
+        },
+        {
+            "key": "npcIdleLeft",
+            "start": 117,
+            "end": 117,
+            "repeat": -1
+        },
+        {
+            "key": "npcIdleFront",
+            "start": 130,
+            "end": 130,
+            "repeat": -1
+        },
+        {
+            "key": "npcIdleRight",
+            "start": 143,
+            "end": 143,
+            "repeat": -1
+        },
+        
+        {
+            "key": "npcWolkBack",
+            "start": 104,
+            "end": 112,
+            "repeat": -1
+        },
+        {
+            "key": "npcWolkLeft",
+            "start": 117,
+            "end": 125,
+            "repeat": -1
+        },
+        {
+            "key": "npcWolkFront",
+            "start": 130,
+            "end": 138,
+            "repeat": -1
+        },
+        {
+            "key": "npcWolkRight",
+            "start": 143,
+            "end": 151,
+            "repeat": -1
+        }
+        
+        
     ]
-    
 }

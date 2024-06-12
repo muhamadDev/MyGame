@@ -47,12 +47,9 @@ export default class Main extends Phaser.Scene {
     }
     
     update(time, delta) {
-        this.npc.update();
         this.inv.update();
         
-        this.Bees.getChildren().forEach((bee) => {
-            bee?.update(time, delta);
-        });
+        this.Bees.getChildren().forEach((bee) => bee?.update(time, delta));
         
         this.trees.getChildren().forEach((tree) => {
             if (tree.y + 40 > this.Dude.y) {
@@ -70,9 +67,9 @@ export default class Main extends Phaser.Scene {
             }
         });
         
-        this.chests.getChildren().forEach(chest => {
-            chest.update()
-        })
+        this.chests.getChildren().forEach(chest => chest.update())
+        
+        this.npcs.getChildren().forEach((npc) => npc.update())
         
     }
     
@@ -255,9 +252,11 @@ export default class Main extends Phaser.Scene {
     }
     
     createNpc() {
-        let data = this.cache.json.get("dialogs");
+        const data = this.cache.json.get("dialogs");
         
-        this.npc = new Npc({
+        this.npcs = this.physics.add.group();
+        
+        const stevenHolk = new Npc({
             key: "npc1",
             x: 456,
             y: 585,
@@ -267,17 +266,12 @@ export default class Main extends Phaser.Scene {
             scale: 1.4,
             sale: true,
             dialog: data.lewis,
-            animations: [{
-                name: "Idle",
-                start: 130,
-                end: 130
-                
-            }]
         },this);
         
-        this.physics.add.collider(this.npc, this.Dude);
-        this.physics.add.collider(this.npc, this.houseWall)
-        this.npc.setDrag(100000)
+        this.npcs.add(stevenHolk)
+        
+        this.physics.add.collider(this.npcs, this.Dude);
+        this.physics.add.collider(this.npcs, this.houseWall)
         
     }
     
