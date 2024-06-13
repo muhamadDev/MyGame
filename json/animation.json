@@ -173,9 +173,66 @@
             "start": 342,
             "end": 354,
             "repeat": 0
-        }
-
+        },
         
+        
+        {
+            "key": "dudeEmptyIdleBack",
+            "spriteKey": "dudeEmpty",
+            "start": 104,
+            "end": 104,
+            "repeat": -1
+        },
+        {
+            "key": "dudeEmptyIdleLeft",
+            "spriteKey": "dudeEmpty",
+            "start": 117,
+            "end": 117,
+            "repeat": -1
+        },
+        {
+            "key": "dudeEmptyIdleFront",
+            "spriteKey": "dudeEmpty",
+            "start": 130,
+            "end": 130,
+            "repeat": -1
+        },
+        {
+            "key": "dudeEmptyIdleRight",
+            "spriteKey": "dudeEmpty",
+            "start": 143,
+            "end": 143,
+            "repeat": -1
+        },
+        
+        {
+            "key": "dudeEmptyWolkBack",
+            "spriteKey": "dudeEmpty",
+            "start": 104,
+            "end": 112,
+            "repeat": -1
+        },
+        {
+            "key": "dudeEmptyWolkLeft",
+            "spriteKey": "dudeEmpty",
+            "start": 117,
+            "end": 125,
+            "repeat": -1
+        },
+        {
+            "key": "dudeEmptyWolkFront",
+            "spriteKey": "dudeEmpty",
+            "start": 130,
+            "end": 138,
+            "repeat": -1
+        },
+        {
+            "key": "dudeEmptyWolkRight",
+            "spriteKey": "dudeEmpty",
+            "start": 143,
+            "end": 151,
+            "repeat": -1
+        }
         
     ],
     "npc1": [

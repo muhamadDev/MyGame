@@ -34,7 +34,6 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         
         this.play(options.key)
         
-        
         this.bullets = this.scene.physics.add.group();
         
         this.scene.time.addEvent({

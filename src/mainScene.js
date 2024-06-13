@@ -109,9 +109,6 @@ export default class Main extends Phaser.Scene {
         this.physics.world.setBounds(0, 0, 1120 * 3, 1120 * 3);
         this.cameras.main.setBounds(0, 0, 1120 * 3, 1120 * 3);
         
-        var graphics = this.add.graphics();
-        graphics.lineStyle(5, 0xff0000);
-        graphics.strokeRect(0, 0, 1120 * 3, 1120 * 3);
     }
     
     createInventory() { 
@@ -130,8 +127,8 @@ export default class Main extends Phaser.Scene {
             scrollFactor: 0, 
             onDbClick: (item, pointer) => {
                 this.Dude.handlePlayerSize()
-                this.Dude.selectedItem = 2
-                this.Dude.holding = "Sowrd"
+                this.Dude.selectedItem = 3;
+                this.Dude.holding = "Empty"
             } ,
             onClickCallback: (item, pointer) => {
                 this.selectedItems(item);
@@ -144,11 +141,11 @@ export default class Main extends Phaser.Scene {
             text: "sword"
         });
         
-        // const a = this.inv.addItem("Bow", {
-        //     qountity: 1,
-        //     text: "Bow",
-        //     action: "nothing"
-        // });
+        const a = this.inv.addItem("healthSpell", {
+            qountity: 1,
+            text: "healthSpell",
+            action: "nothing"
+        });
         
         // console.log(a.children[1].getData("info").action)
         
@@ -165,7 +162,7 @@ export default class Main extends Phaser.Scene {
                 scale: 2,
                 speed: 120,
                 dude: this.Dude,
-                damageToEnemy: 10
+                damageToEnemy: 5
             }, this);
             
             this.Bees.add(bee);
@@ -335,6 +332,9 @@ export default class Main extends Phaser.Scene {
             this.Dude.selectedItem = 0
             this.Dude.holding = "Sowrd"
             
+        } else if(item.name == "healthSpell") {
+            this.Dude.selectedItem = 2;
+            this.Dude.holding = "Empty"
         }
         
         

@@ -346,11 +346,46 @@ export const playerItems = [
     },
     
     {
-        name: "hand",
-        
+        name: "spell",
         action: function (player) {
-            console.log("punch")
+            player.scene.inv.removeItem("healthSpell", 1);
+            
+            player.graphics = player.scene.add.graphics({
+                fillStyle: { color: 0xffffff } 
+            });
+            
+            let circle = new Phaser.Geom.Circle(player.x, player.y, 10);
+            player.graphics.fillCircleShape(circle);
+            
+            circle.alpha = 0.7;
+            
+            player.scene.tweens.add({
+                targets: circle,
+                radius: 200, 
+                alpha: 0,
+                duration: 2000,
+                ease: 'Power2',
+                onUpdate: () => {
+                    player.graphics.clear();
+                    player.graphics.fillStyle(0xffffff, circle.alpha);
+                    player.graphics.fillCircleShape(circle);
+                },
+                onComplete: () => {
+                    player.graphics.destroy();
+                }
+            });
+            
+            player.setHealth(100)
+            player.scene.healthBar.updateHealth()
+            player.selectedItem = 3;
         }
+    },
+    
+    {
+       name: "hand", 
+       action: function(player) {
+           console.log("punch")
+       }
     }
     
 ]

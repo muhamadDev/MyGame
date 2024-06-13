@@ -18,11 +18,6 @@
         },
         {
             "type": "image",
-            "key": "Container",
-            "url": "../assets/ui/Container.png"
-        },
-        {
-            "type": "image",
             "key": "bullet",
             "url": "../assets/enemy/bullet.png"
         },
@@ -48,16 +43,6 @@
         },
         {
             "type": "image",
-            "key": "dudeStatus",
-            "url": "../assets/ui/dudeStatusV1.png"
-        },
-        {
-            "type": "image",
-            "key": "health",
-            "url": "../assets/ui/energy.png"
-        },
-        {
-            "type": "image",
             "key": "HealthContainer",
             "url": "../assets/ui/HealthContainer.png"
         },
@@ -66,6 +51,12 @@
             "key": "HealthBar",
             "url": "../assets/ui/HealthBar.png"
         },
+        {
+            "type": "image",
+            "key": "healthSpell",
+            "url": "../assets/ui/HealthSpell.png"
+        },
+
         {
             "type": "audio",
             "key": "swosh",
@@ -153,6 +144,12 @@
             "key": "dudeBow2",
             "url": "../assets/player/Bow2.png",
             "frameConfig": { "frameWidth": 128, "frameHeight": 128 }
+        },
+        {
+            "type": "spritesheet",
+            "key": "dudeEmpty",
+            "url": "../assets/player/PlayerEmpty.png",
+            "frameConfig": { "frameWidth": 64, "frameHeight": 64 }
         },
         {
             "type": "spritesheet",
