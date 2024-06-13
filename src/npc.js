@@ -15,6 +15,8 @@ export default class Npc extends Phaser.Physics.Arcade.Sprite {
         this.secondTime = false;
         this.shouldTalk = true;
         this.isSecondClick = false;
+        this.talking = false; 
+        this.direction = "Front"
         
         this.dialogNumber = 0;
         
@@ -23,20 +25,30 @@ export default class Npc extends Phaser.Physics.Arcade.Sprite {
         .setCollideWorldBounds(true)
         .setPushable(false)
         .setDepth(4)
+        .setBounce(1)
         
         this.animation();
         this.play(`npcIdleFront-${this.options.key}`);
         
-        this.movement();
-        
         this.scene.time.addEvent({
             delay: 2000,
+            duration: 2100,
             callback: () => {
+                if (this.talking) return;
                 this.movement();
             },
             callbackScope: this,
             loop: true
         });
+        
+        this.Area = new Phaser.Geom.Circle(this.options.x, this.options.y, 400);
+        // debug
+        const graphics = this.scene.add.graphics({
+            lineStyle: { width: 2, color: 0xff0000 } 
+        });
+        
+        graphics.strokeCircleShape(this.Area);
+        
     }
     
     animation() {
@@ -78,41 +90,45 @@ export default class Npc extends Phaser.Physics.Arcade.Sprite {
         
         const distanceMainPointNpc = Phaser.Math.Distance.BetweenPoints(mainPoint, this);
         
-        if(distanceMainPointNpc > 700) {
-            const angle = Phaser.Math.Angle.BetweenPoints(mainPoint, this);
+        if(distanceMainPointNpc > 500) {
+            let angle = Phaser.Math.Angle.BetweenPoints(this, mainPoint);
             let angleInDegrees = Phaser.Math.RadToDeg(angle);
+            
             let direction = angleToDirection(angleInDegrees);
             this.movement(direction)
+            console.log(direction)
         }
         
-        function angleToDirection(angleInDegrees) {
-            // Convert angle to a standard range (-180 to 180 degrees)
-            let normalizedAngle = Phaser.Math.Angle.Normalize(angleInDegrees);
-            
-            // Determine direction based on angle ranges
-            if (normalizedAngle >= -45 && normalizedAngle < 45) {
-                return 'Right';
-            } else if (normalizedAngle >= 45 && normalizedAngle < 135) {
-                return 'Front';
-            } else if (normalizedAngle >= 135 || normalizedAngle < -135) {
-                return 'Left';
+        if (this.body.velocity.x == 0 && this.body.velocity.y == 0) {
+            this.play(`npcIdle${this.direction}-${this.options.key}`);
+        }
+        
+        this.scene.trees.getChildren().forEach((tree) => {
+            if (tree.y + 40 > this.y) {
+                this.setDepth(3);
             } else {
-                return 'Back';
+                this.setDepth(90)
             }
-        }
+        });
         
+        
+        if (!Phaser.Geom.Circle.Contains(this.Area, this.x, this.y)) {
+            const angle = Phaser.Math.Angle.BetweenPoints(this, this.Area);
+            let direction = angleToDirection(angle);
+            
+            this.movement(direction)
+        }
     }
     
-    movement(cutDirection) {
+    movement(newDirection) {
         
         const directions = ['Left', 'Right', 'Back', 'Front'];
         
-        if (cutDirection) {
-            const indexOfCutDir = directions.indexOf(cutDirection);
-            direction.splice(indexOfCutDir, 1)
-        }
+        let direction = Phaser.Utils.Array.GetRandom(directions);
         
-        const direction = Phaser.Utils.Array.GetRandom(directions);
+        if (newDirection) {
+            direction = newDirection;
+        }
         
         this.direction = direction;
         this.setVelocity(0); // Stop any existing movement
@@ -120,19 +136,19 @@ export default class Npc extends Phaser.Physics.Arcade.Sprite {
         switch (direction) {
             case 'Left':
                 this.setVelocityX(-this.speed);
-                this.anims.play(`npcWolkLeft-${this.options.key}`, true);
+                this.play(`npcWolkLeft-${this.options.key}`);
                 break;
             case 'Right':
                 this.setVelocityX(this.speed);
-                this.anims.play(`npcWolkRight-${this.options.key}`, true);
+                this.play(`npcWolkRight-${this.options.key}`);
                 break;
             case 'Back':
                 this.setVelocityY(-this.speed);
-                this.anims.play(`npcWolkBack-${this.options.key}`, true);
+                this.play(`npcWolkBack-${this.options.key}`);
                 break;
             case 'Front':
                 this.setVelocityY(this.speed);
-                this.anims.play(`npcWolkFront-${this.options.key}`, true);
+                this.play(`npcWolkFront-${this.options.key}`);
                 break;
         }
         
@@ -148,6 +164,7 @@ const COLOR_PRIMARY = 0x4e342e;
 
 
 export function createTextBox(scene, x, y, wrapWidth, npc, npcName = "npc-LK-On") {
+    npc.talking = true
     let textBox = scene.rexUI.add.textBox({
         x: x,
         y: y,
@@ -203,7 +220,8 @@ export function createTextBox(scene, x, y, wrapWidth, npc, npcName = "npc-LK-On"
             separator: 6,
             
         }
-    }).setOrigin(0).layout().setDepth(350).setScrollFactor(0)
+    })
+    .setOrigin(0).layout().setDepth(350).setScrollFactor(0)
     
     textBox.setInteractive();
       
@@ -217,6 +235,7 @@ export function createTextBox(scene, x, y, wrapWidth, npc, npcName = "npc-LK-On"
             this.typeNextPage();
         } else {
             // last Page
+            npc.talking = false
             textBox.destroy();
             scene.physics.resume();
             
@@ -256,3 +275,22 @@ export function createTextBox(scene, x, y, wrapWidth, npc, npcName = "npc-LK-On"
       });
       return textBox;
 };
+
+
+export function angleToDirection(angle) {
+       // Convert angle to degrees
+   var degrees = Phaser.Math.RadToDeg(angle);
+
+   // Determine the direction based on the angle in degrees
+   if (degrees >= -45 && degrees < 45) {
+       return 'Right'; // Right (0 degrees)
+   } else if (degrees >= 45 && degrees < 135) {
+       return 'Front'; // Down (90 degrees)
+   } else if (degrees >= 135 || degrees < -135) {
+       return 'Left'; // Left (180 degrees)
+   } else if (degrees >= -135 && degrees < -45) {
+       return 'Back'; // Up (-90 degrees)
+   } else {
+       return 'Right'; // Default to right if angle is out of range
+   }
+}

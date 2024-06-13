@@ -128,9 +128,10 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         this?.scene.physics.add.collider(this, this?.scene.barrels);
         this?.scene.physics.add.collider(this.raycaster.ray, this?.scene.barrels);
         
-        this.debugGraphics = this?.scene.add.graphics();
-        
         this.followPlayer = true;
+        
+        // debug
+        this.debugGraphics = this?.scene.add.graphics();
         
     }
     
@@ -196,11 +197,11 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
             this.scene.Dude.x, this.scene.Dude.y,
         );
         
+        // debug
         this.debugGraphics
         .clear()
         .lineStyle(1, 0x47FF35)
         .strokeLineShape(this.raycaster.ray)
-        .setAlpha(0)
         
         var result = this.raycaster.rayToward(this.x, this.y, angle)
         
@@ -214,8 +215,6 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         if (!this.scene.physics.world.collide(this, this.dude)) {
             this.firstFloadNumber = true
         }
-
-
         
     }
     

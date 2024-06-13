@@ -49,7 +49,9 @@ export default class Main extends Phaser.Scene {
     update(time, delta) {
         this.inv.update();
         
-        this.Bees.getChildren().forEach((bee) => bee?.update(time, delta));
+        this.Bees.getChildren().forEach((bee) => {
+            bee?.update(time, delta);
+        });
         
         this.trees.getChildren().forEach((tree) => {
             if (tree.y + 40 > this.Dude.y) {
@@ -67,9 +69,13 @@ export default class Main extends Phaser.Scene {
             }
         });
         
-        this.chests.getChildren().forEach(chest => chest.update())
+        this.chests.getChildren().forEach(chest => {
+            chest.update();
+        });
         
-        this.npcs.getChildren().forEach((npc) => npc.update())
+        this.npcs.getChildren().forEach((npc) => {
+            npc.update()
+        });
         
     }
     
@@ -103,6 +109,9 @@ export default class Main extends Phaser.Scene {
         this.physics.world.setBounds(0, 0, 1120 * 3, 1120 * 3);
         this.cameras.main.setBounds(0, 0, 1120 * 3, 1120 * 3);
         
+        var graphics = this.add.graphics();
+        graphics.lineStyle(5, 0xff0000);
+        graphics.strokeRect(0, 0, 1120 * 3, 1120 * 3);
     }
     
     createInventory() { 
@@ -268,10 +277,17 @@ export default class Main extends Phaser.Scene {
             dialog: data.lewis,
         },this);
         
+        stevenHolk.setCollideWorldBounds(true);
+        
         this.npcs.add(stevenHolk)
         
-        this.physics.add.collider(this.npcs, this.Dude);
-        this.physics.add.collider(this.npcs, this.houseWall)
+        this.physics.add.collider(this.npcs, this.Dude, (npc, dude) => {
+            npc.setVelocity(0)
+        });
+        
+        this.physics.add.collider(this.npcs, this.houseWall, (npc, wall) => {
+            npc.setVelocity(0);
+        })
         
     }
     
