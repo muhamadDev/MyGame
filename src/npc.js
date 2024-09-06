@@ -44,11 +44,11 @@ export default class Npc extends Phaser.Physics.Arcade.Sprite {
         
         this.Area = new Phaser.Geom.Circle(this.options.x, this.options.y, 400);
         // debug
-        const graphics = this.scene.add.graphics({
-            lineStyle: { width: 2, color: 0xff0000 } 
-        });
+        // const graphics = this.scene.add.graphics({
+        //     lineStyle: { width: 2, color: 0xff0000 } 
+        // });
         
-        graphics.strokeCircleShape(this.Area);
+        // graphics.strokeCircleShape(this.Area);
         
     }
     

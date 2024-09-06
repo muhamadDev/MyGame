@@ -14,7 +14,7 @@ export default class Main extends Phaser.Scene {
     preload() {
         this.loadingRec = this.add.rectangle(640, 360, 1280, 720, 0x000000);
         
-        this.load.pack('assetPack', '../json/load.json');
+        this.load.pack('assetPack', '../json/pack.json');
         
         this.load.scenePlugin('PhaserTooltip', PhaserTooltip, 'PhaserTooltip', 'tooltip');
     }
@@ -112,21 +112,23 @@ export default class Main extends Phaser.Scene {
     }
     
     createInventory() { 
+        
         this.sizers = this.physics.add.group();
+        
         this.inv = new Inventory({
-            x: 1220,
-            y: 100,
+            x: (1280 / 2) - ( 5/2 * 70 + 10) ,
+            y: 650,
             key: "inventoryContainer",
             id: 0,
-            orientationY: true,
-            tooltitOffset: { x: 0, y: 0},
+            orientationY: false,
+            tooltitOffset: { x: -10, y: 50},
             space: 5, 
             width: 70,
             height: 70, 
             padding: 10, 
             scrollFactor: 0, 
             onDbClick: (item, pointer) => {
-                this.Dude.handlePlayerSize()
+                this.Dude.handlePlayerSize();
                 this.Dude.selectedItem = 3;
                 this.Dude.holding = "Empty"
             } ,
@@ -136,9 +138,9 @@ export default class Main extends Phaser.Scene {
             inventorys: [],
         }, this);
         
-        this.inv.addItem("sword", {
+        this.inv.addItem("Sword", {
             qountity: 1,
-            text: "sword"
+            text: "Sword"
         });
         
         const a = this.inv.addItem("healthSpell", {
@@ -155,6 +157,7 @@ export default class Main extends Phaser.Scene {
         this.Bees = this.physics.add.group();
         
         for (var i = 0; i < 3; i++) {
+            
             let bee = new Enemy({ 
                 x: 821 + ( i * 50),
                 y: 1154 + (i * 60),
@@ -217,15 +220,26 @@ export default class Main extends Phaser.Scene {
         let y = 680
         
         houseData.layers[0].tiles.forEach((tile) => {
-            this.houseFloor.create(x + tile.x * 48, y + tile.y * 48, "houseSheet", +tile.id)
-            .setScale(1.5).body.debugShowBody = false;
+            
+            this.houseFloor.create(
+                x + tile.x * 48, y + tile.y * 48,
+                "houseSheet", +tile.id
+            )
+            .setScale(1.5)
+            .body.debugShowBody = false;
+            
         });
         
         houseData.layers[1].tiles.forEach((tile) => {
-            this.houseWall.create(x +tile.x * 48, y + tile.y * 48, "houseSheet", +tile.id)
+            
+            this.houseWall.create(
+                x +tile.x * 48, y + tile.y * 48,
+                "houseSheet", +tile.id
+            )
             .setScale(1.5)
             .setSize(44,60)
             .setOffset(-5,-18)
+            
         });
         
         data.houseDecore.forEach(decore => {
@@ -253,7 +267,7 @@ export default class Main extends Phaser.Scene {
         
         this.physics.add.collider(this.trees, this.Dude.arrows, (tree, arrow) => {
             arrow.destroy();
-        })
+        });
         
     }
     
@@ -324,27 +338,45 @@ export default class Main extends Phaser.Scene {
     }
     
     selectedItems(item) {
-        if(item.name == "Bow") {
-            this.Dude.selectedItem = 1
-            this.Dude.holding = "Bow"
-            
-        } else if(item.name == "sword") {
-            this.Dude.selectedItem = 0
-            this.Dude.holding = "Sowrd"
-            
-        } else if(item.name == "healthSpell") {
-            this.Dude.selectedItem = 2;
-            this.Dude.holding = "Empty"
+        const items = [
+            {
+                name: "Bow",
+                selectedItem: 1
+            },
+            {
+                name: "Sword",
+                selectedItem: 0,
+            }, 
+            {
+                name: "healthSpell",
+                selectedItem: 2,
+                holding: "Empty"
+            }
+        ]
+        
+        const theItem = items.filter((aItem) => aItem.name == item.name )[0];
+        
+        if(theItem) {
+            this.Dude.selectedItem = theItem.selectedItem;
+            this.Dude.holding = theItem.holding ?? theItem.name;
+            this.Dude.handlePlayerSize()
         }
         
         
         if (this.Dude.body.velocity.x == 0 && this.Dude.body.velocity.y == 0) {
-            this.Dude.play(`dude${this.Dude.holding}Idle${this.Dude.getData("facing")}`);
+            
+            this.Dude.play(
+                `dude${this.Dude.holding}Idle${this.Dude.getData("facing")}`
+            );
+            
             this.Dude.handlePlayerSize()
+            
             return
         }
         
-        this.Dude.play(`dude${this.Dude.holding}Wolk${this.Dude.getData("facing")}`);
+        this.Dude.play(
+            `dude${this.Dude.holding}Wolk${this.Dude.getData("facing")}`
+        );
         
         this.Dude.handlePlayerSize()
         

@@ -245,12 +245,15 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
 export const playerItems = [
     {
-        name: "Sowrd",
+        name: "Sword",
         timeBettwenEachAttack: 600,
         action: function(player) {
+            
             player.setData("onAttack", true);
+            
             player.damageToEnemy = 40
-            player.play(`dudeSowrdAttack${player.getData("facing")}`);
+            
+            player.play(`dudeSwordAttack${player.getData("facing")}`);
             
             let swosh = player.scene.sound.add("swosh");
             
@@ -267,8 +270,20 @@ export const playerItems = [
             player.isFirstAttack = false
             
             player.scene.time.delayedCall(this.timeBettwenEachAttack, () => {
-                player.isFirstAttack = true
+                
+                player.isFirstAttack = true;
+                
             });
+            
+            player.on(
+                `animationcomplete-dudeSwordAttack${player.getData("facing")}`,
+                () => {
+                    
+                    player.scene.time.delayedCall(230, () => {
+                        player.play(`dudeSwordIdle${player.getData("facing")}`)
+                    });
+                }
+            );
             
             
         }

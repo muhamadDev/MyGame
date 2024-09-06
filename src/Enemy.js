@@ -68,7 +68,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                     this.dude.heal(5);
                     this?.scene.healthBar.updateHealth();
                     this.raycaster.destroy();
-                    this.debugGraphics.clear();
+                    // this.debugGraphics.clear();
                     this.destroy();
                     
                 },
@@ -130,7 +130,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.followPlayer = true;
         
         // debug
-        this.debugGraphics = this?.scene.add.graphics();
+        // this.debugGraphics = this?.scene.add.graphics();
         
     }
     
@@ -197,10 +197,10 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         );
         
         // debug
-        this.debugGraphics
-        .clear()
-        .lineStyle(1, 0x47FF35)
-        .strokeLineShape(this.raycaster.ray)
+        // this.debugGraphics
+        // .clear()
+        // .lineStyle(1, 0x47FF35)
+        // .strokeLineShape(this.raycaster.ray)
         
         var result = this.raycaster.rayToward(this.x, this.y, angle)
         

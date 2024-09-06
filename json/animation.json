@@ -1,28 +1,28 @@
 {
     "player": [
         {
-            "key": "dudeSowrdIdleBack",
+            "key": "dudeSwordIdleBack",
             "spriteKey": "dudeSword",
             "start": 104,
             "end": 104,
             "repeat": -1
         },
         {
-            "key": "dudeSowrdIdleLeft",
+            "key": "dudeSwordIdleLeft",
             "spriteKey": "dudeSword",
             "start": 117,
             "end": 117,
             "repeat": -1
         },
         {
-            "key": "dudeSowrdIdleFront",
+            "key": "dudeSwordIdleFront",
             "spriteKey": "dudeSword",
             "start": 130,
             "end": 130,
             "repeat": -1
         },
         {
-            "key": "dudeSowrdIdleRight",
+            "key": "dudeSwordIdleRight",
             "spriteKey": "dudeSword",
             "start": 143,
             "end": 143,
@@ -30,28 +30,28 @@
         },
         
         {
-            "key": "dudeSowrdAttackBack",
+            "key": "dudeSwordAttackBack",
             "spriteKey": "dudeSword",
             "start": 156,
             "end": 161,
             "repeat": 0 
         },
         {
-            "key": "dudeSowrdAttackLeft",
+            "key": "dudeSwordAttackLeft",
             "spriteKey": "dudeSword",
             "start": 169,
             "end": 174,
             "repeat": 0
         },
         {
-            "key": "dudeSowrdAttackFront",
+            "key": "dudeSwordAttackFront",
             "spriteKey": "dudeSword",
             "start": 182,
             "end": 187,
             "repeat": 0
         },
         {
-            "key": "dudeSowrdAttackRight",
+            "key": "dudeSwordAttackRight",
             "spriteKey": "dudeSword",
             "start": 195,
             "end": 200,
@@ -59,28 +59,28 @@
         },
         
         {
-            "key": "dudeSowrdWolkBack",
+            "key": "dudeSwordWolkBack",
             "spriteKey": "dudeSword",
             "start": 104,
             "end": 112,
             "repeat": -1
         },
         {
-            "key": "dudeSowrdWolkLeft",
+            "key": "dudeSwordWolkLeft",
             "spriteKey": "dudeSword",
             "start": 117,
             "end": 125,
             "repeat": -1
         },
         {
-            "key": "dudeSowrdWolkFront",
+            "key": "dudeSwordWolkFront",
             "spriteKey": "dudeSword",
             "start": 130,
             "end": 138,
             "repeat": -1
         },
         {
-            "key": "dudeSowrdWolkRight",
+            "key": "dudeSwordWolkRight",
             "spriteKey": "dudeSword",
             "start": 143,
             "end": 151,
